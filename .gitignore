@@ -1,0 +1,21 @@
+core
+*.o
+*.dSYM
+*.ko
+*.dwo
+*.mod
+*.mod.c
+*.order
+*.symvers
+*.swp
+.*.swp
+*.cmd
+.*.cmd
+.DS_Store
+**/.DS_Store
+**/cat
+# doc temp files
+~$*.docx
+*.tmp
+#vs code directory
+.vscode
