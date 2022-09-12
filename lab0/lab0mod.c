@@ -23,7 +23,7 @@ static int lab0_show(struct seq_file *m, void *v) {
   secs = secondsup % 60;
 
 
-  seq_printf(m, "System up(%lld):  %d hrs, %d mins, %d secs\n", secondsup, hrs, mins,secs);
+  seq_printf(m, "System up(%lld):  %d hrs, %d mins, %d seconds\n", secondsup, hrs, mins,secs);
   return 0;
 }
 
