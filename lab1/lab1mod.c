@@ -36,6 +36,7 @@ static int lab1_show(struct seq_file *m, void *v) {
   seq_printf(m,"PID = %d\n", PID);
   seq_printf(m,"PPID = %d\n", PPID);  
   
+  
   if(STATE==TASK_STOPPED) seq_printf(m,"State = Stopped\n");
   else if(STATE==TASK_INTERRUPTIBLE || STATE==TASK_UNINTERRUPTIBLE) seq_printf(m,"State = Waiting\n");
   else if(STATE==TASK_RUNNING) seq_printf(m,"State = Running\n");
