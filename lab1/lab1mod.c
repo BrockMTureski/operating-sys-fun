@@ -18,11 +18,6 @@ static int lab1_show(struct seq_file *m, void *v) {
   int PPID = task_ppid_nr(current);
 
   long STATE = current->state;
-  /* -1 unrunnable, 0 runnable, >0 stopped: */
-
-  
-
-  
 
   int RUID = current->cred->uid.val;
   int EUID = current->cred->euid.val;
@@ -32,21 +27,21 @@ static int lab1_show(struct seq_file *m, void *v) {
   int RGID = current->cred->gid.val;
 
   seq_printf(m,"Current Process PCB Information\n");
-  seq_printf(m,"Name=cat\n");
+  seq_printf(m,"Name = cat\n");
   seq_printf(m,"PID = %d\n", PID);
   seq_printf(m,"PPID = %d\n", PPID);  
-  
+
   
   if(STATE==TASK_STOPPED) seq_printf(m,"State = Stopped\n");
   else if(STATE==TASK_INTERRUPTIBLE || STATE==TASK_UNINTERRUPTIBLE) seq_printf(m,"State = Waiting\n");
   else if(STATE==TASK_RUNNING) seq_printf(m,"State = Running\n");
 
-  seq_printf(m,"Real UID = %d\n",RUID);
-  seq_printf(m,"Effective UID = %d\n",EUID);
-  seq_printf(m,"Saved UID = %d\n",SUID);
-  seq_printf(m,"Real GID = %d\n",RGID);
-  seq_printf(m,"Effective GID = %d\n",EGID);
-  seq_printf(m,"Saved GID = %d\n",SGID);
+  seq_printf(m,"Real UID = %d\n", RUID);
+  seq_printf(m,"Effective UID = %d\n", EUID);
+  seq_printf(m,"Saved UID = %d\n" ,SUID);
+  seq_printf(m,"Real GID = %d\n", RGID);
+  seq_printf(m,"Effective GID = %d\n", EGID);
+  seq_printf(m,"Saved GID = %d\n", SGID);
 
   return 0;
 }
@@ -73,7 +68,7 @@ static const struct file_operations lab1_fops = {
 #endif
 
 static int __init lab1_init(void) {
-  proc_create("lab1",0,NULL, &lab1_fops);
+  proc_create("lab1", 0, NULL, &lab1_fops);
   printk(KERN_INFO "lab1mod in\n");
   return 0;
 }
