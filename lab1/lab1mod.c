@@ -15,11 +15,14 @@
 
 static int lab1_show(struct seq_file *m, void *v) {
   
+  //Initializing and assigning PID and PPID
   int PID = current->pid;
   int PPID = task_ppid_nr(current);
 
+  //Initializing and assigning State 
   long STATE = current->state;
 
+  //Initializing and assigning UID and GID values
   int RUID = current->cred->uid.val;
   int EUID = current->cred->euid.val;
   int SUID = current->cred->suid.val;
@@ -27,16 +30,18 @@ static int lab1_show(struct seq_file *m, void *v) {
   int EGID = current->cred->egid.val;
   int RGID = current->cred->gid.val;
 
+  //Printing name, PID, and PPID values
   seq_printf(m, "Current Process PCB Information\n");
   seq_printf(m, "Name = cat\n");
   seq_printf(m, "PID = %d \n", PID);
   seq_printf(m, "PPID = %d \n", PPID);  
 
-  
+  //Conditional statement block to print correct state value
   if(STATE==TASK_STOPPED) seq_printf(m, "State = Stopped\n");
   else if(STATE==TASK_INTERRUPTIBLE || STATE==TASK_UNINTERRUPTIBLE) seq_printf(m, "State = Waiting\n");
   else if(STATE==TASK_RUNNING) seq_printf(m, "State = Running\n");
 
+  //Printing UID and GID values
   seq_printf(m, "Real UID = %d \n", RUID);
   seq_printf(m, "Effective UID = %d \n", EUID);
   seq_printf(m, "Saved UID = %d \n", SUID);
@@ -69,12 +74,14 @@ static const struct file_operations lab1_fops = {
 #endif
 
 static int __init lab1_init(void) {
+  //creating proc entry  
   proc_create("lab1", 0, NULL, &lab1_fops);
   printk(KERN_INFO "lab1mod in\n");
   return 0;
 }
 
 static void __exit lab1_exit(void) {
+  //removing entry from the proc directory
   remove_proc_entry("lab1",NULL);
   printk(KERN_INFO "lab1mod out\n");
 }
