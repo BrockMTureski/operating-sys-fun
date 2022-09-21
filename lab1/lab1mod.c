@@ -2,7 +2,8 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
-
+#include <linux/sched.h>
+#include <linux/cred.h>
 #include <linux/proc_fs.h>
 #include <linux/seq_file.h>
 #include <linux/ktime.h>
@@ -26,22 +27,22 @@ static int lab1_show(struct seq_file *m, void *v) {
   int EGID = current->cred->egid.val;
   int RGID = current->cred->gid.val;
 
-  seq_printf(m,"Current Process PCB Information\n");
-  seq_printf(m,"Name = cat\n");
-  seq_printf(m,"PID = %d\n", PID);
-  seq_printf(m,"PPID = %d\n", PPID);  
+  seq_printf(m, "Current Process PCB Information\n");
+  seq_printf(m, "Name = cat\n");
+  seq_printf(m, "PID = %d \n", PID);
+  seq_printf(m, "PPID = %d \n", PPID);  
 
   
-  if(STATE==TASK_STOPPED) seq_printf(m,"State = Stopped\n");
-  else if(STATE==TASK_INTERRUPTIBLE || STATE==TASK_UNINTERRUPTIBLE) seq_printf(m,"State = Waiting\n");
-  else if(STATE==TASK_RUNNING) seq_printf(m,"State = Running\n");
+  if(STATE==TASK_STOPPED) seq_printf(m, "State = Stopped\n");
+  else if(STATE==TASK_INTERRUPTIBLE || STATE==TASK_UNINTERRUPTIBLE) seq_printf(m, "State = Waiting\n");
+  else if(STATE==TASK_RUNNING) seq_printf(m, "State = Running\n");
 
-  seq_printf(m,"Real UID = %d\n", RUID);
-  seq_printf(m,"Effective UID = %d\n", EUID);
-  seq_printf(m,"Saved UID = %d\n" ,SUID);
-  seq_printf(m,"Real GID = %d\n", RGID);
-  seq_printf(m,"Effective GID = %d\n", EGID);
-  seq_printf(m,"Saved GID = %d\n", SGID);
+  seq_printf(m, "Real UID = %d \n", RUID);
+  seq_printf(m, "Effective UID = %d \n", EUID);
+  seq_printf(m, "Saved UID = %d \n", SUID);
+  seq_printf(m, "Real GID = %d \n", RGID);
+  seq_printf(m, "Effective GID = %d \n", EGID);
+  seq_printf(m, "Saved GID = %d \n", SGID);
 
   return 0;
 }
