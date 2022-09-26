@@ -129,6 +129,9 @@ int main(int argc, char * argv[]){
 
 void init_shared( struct shared_segment * shmemptr ){
 
+   if( mutex = sem_open(MUTEX_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror(char * msg);
+   if( access_stats = sem_open(ACCESS_STATS_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror(char * msg);
+   if( access_summary = sem_open(ACCESS_SUMMARY_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror(char * msg);
 
 	shmemptr -> monitorCount = 0;
 }
