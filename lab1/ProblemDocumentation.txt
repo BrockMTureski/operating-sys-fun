@@ -1,0 +1,22 @@
+ELEC 377 Lab 1
+Emma Flindall 20212230; Brock Tureski 20151968
+27-09-2022
+
+The purpose of this lab was to build a loadable kernel module that returns information about the
+ running process’s process identification number (PID) and its parent (PPID), user identifiers (UID), 
+and group identifiers (GID).  
+
+The program chain starts with module_init whose parameter calls the function lab1_init. Lab1_init 
+contains proc_create whose last parameter is a pointer to the structure whose functions will generate 
+the contents of the file which is lab1_fops. After lab1_fops, lab1_open uses single_open to produce 
+the proc output from the function lab1_show. 
+
+The contents of the lab1_show function starts by initializing the PID and PPID variables. The current pointer
+points to the PID value while the task_ppid_nr fuction takes the current pointer as a parameter to access the 
+PPID value. The STATE variable is initialized by the current pointer accessing the state value. All of the UID 
+and GID values are initialized and assigned to the value accessed by the current pointer pointing to the cred 
+struct, whose pointer points to the individual values. Each of the values are added to the file using the 
+seq_printf() function.
+
+
+The difference between the two output files is that the first file is a .out1 file while the other output file is a .outx file. The .out1 output file is the file associated with running the make command while logged in as a non-root user whilst the .outx is the output file associated with logging the process entry when logged in as root user. Due to the .outx file being associated with root user the UID, SUID, RUID, GID, SGID and RGID are all 0.
