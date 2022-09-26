@@ -167,22 +167,12 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     //------------------------------------
     //  enter critical section for monitor
     //------------------------------------
-<<<<<<< HEAD
     ThreadLog('M','Entering critical monitor section.\n')
     int check = sem_wait(mutex);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
     }
-=======
-    int check  = sem_wait(access_stats);
-    if(check == -1){
-        perror("Error: monitor already in critical section.\n");
-        exit(1);
-    }
-    
-
->>>>>>> 14e3cc8e6a681732c2e1f7d1b86f14e76d06df26
     //------------------------------------
     // monitor critical section
     //------------------------------------
