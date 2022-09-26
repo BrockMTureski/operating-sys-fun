@@ -131,8 +131,12 @@ int main(int argc, char * argv[]){
 // as initiallizing the shared object to the starting state
 //-
 
+
 void init_shared( struct shared_segment * shmemptr ){
 
+   if( mutex = sem_open(MUTEX_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
+   if( access_stats = sem_open(ACCESS_STATS_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
+   if( access_summary = sem_open(ACCESS_SUMMARY_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
 
 	shmemptr -> monitorCount = 0;
 }
@@ -163,12 +167,22 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     //------------------------------------
     //  enter critical section for monitor
     //------------------------------------
+<<<<<<< HEAD
     ThreadLog('M','Entering critical monitor section.\n')
     int check = sem_wait(mutex);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
     }
+=======
+    int check  = sem_wait(access_stats);
+    if(check == -1){
+        perror("Error: monitor already in critical section.\n");
+        exit(1);
+    }
+    
+
+>>>>>>> 14e3cc8e6a681732c2e1f7d1b86f14e76d06df26
     //------------------------------------
     // monitor critical section
     //------------------------------------
@@ -180,6 +194,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     shared_memory.machine_stats[machine_id].load_factor=cur_read_stat->load_factor;
     shared_memory.machine_stats[machine_id].packets_per_second=cur_read_stat->packets_per_second;
     shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second;
+<<<<<<< HEAD
 
     
     // report if overwritten or normal case (Stage 2)
@@ -198,6 +213,21 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     if(check==-1){
          perror("Error: error posting semaphore.\n");
          exit(1);
+=======
+    
+    // report if overwritten or normal case (Stage 2)
+    
+    
+    // mark as unread
+    shared_memory.machine_stats[machine_id].read=0;
+    //------------------------------------
+    // exit critical setion for monitor
+    //------------------------------------
+    check sem_post(access_stats);
+    if(check == -1) {
+        perror("Error: error posting semaphore.\n");
+        exit(1);
+>>>>>>> 14e3cc8e6a681732c2e1f7d1b86f14e76d06df26
     }
 
 }

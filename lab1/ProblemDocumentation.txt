@@ -17,4 +17,6 @@ PPID value. The STATE variable is initialized by the current pointer accessing t
 and GID values are initialized and assigned to the value accessed by the current pointer pointing to the cred 
 struct, whose pointer points to the individual values. Each of the values are added to the file using the 
 seq_printf() function.
- 
+
+
+The difference between the two output files is that the first file is a .out1 file while the other output file is a .outx file. The .out1 output file is the file associated with running the make command while logged in as a non-root user whilst the .outx is the output file associated with logging the process entry when logged in as root user. Due to the .outx file being associated with root user the UID, SUID, RUID, GID, SGID and RGID are all 0.
