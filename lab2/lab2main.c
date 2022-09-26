@@ -194,7 +194,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     shared_memory.machine_stats[machine_id].load_factor=cur_read_stat->load_factor;
     shared_memory.machine_stats[machine_id].packets_per_second=cur_read_stat->packets_per_second;
     shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second;
-<<<<<<< HEAD
+
 
     
     // report if overwritten or normal case (Stage 2)
@@ -227,7 +227,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     if(check == -1) {
         perror("Error: error posting semaphore.\n");
         exit(1);
->>>>>>> 14e3cc8e6a681732c2e1f7d1b86f14e76d06df26
+
     }
 
 }
