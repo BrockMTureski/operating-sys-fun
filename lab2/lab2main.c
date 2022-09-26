@@ -101,7 +101,11 @@ int main(int argc, char * argv[]){
     
     // TODO: stage 2
     // start reader thread
-    
+    pthread_t * reader_id;
+    reader_param->shmemptr=shared_memory;
+    reader_param->num_machines=num_monitor_threads;
+    reader_thread(reader_param);
+
     // TODO: stage 3
     // start printer thread
     
@@ -159,26 +163,42 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     //------------------------------------
     //  enter critical section for monitor
     //------------------------------------
-
-    
-
+    ThreadLog('M','Entering critical monitor section.\n')
+    int check = sem_wait(mutex);
+    if(check==-1) {
+        perror("Error: monitor already in critical section\n");
+        exit(1);
+    }
     //------------------------------------
     // monitor critical section
     //------------------------------------
 
     
     // store the monitor data
-    
+    shared_memory.machine_stats[machine_id].machine_state=cur_read_stat->machine_state;
+    shared_memory.machine_stats[machine_id].num_of_processes=cur_read_stat->num_of_processes;
+    shared_memory.machine_stats[machine_id].load_factor=cur_read_stat->load_factor;
+    shared_memory.machine_stats[machine_id].packets_per_second=cur_read_stat->packets_per_second;
+    shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second;
 
     
     // report if overwritten or normal case (Stage 2)
-    
+    colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d",machine_id,status_id,
+			     (shared_memory.machine_stats[machine_id].machine_state),
+			     (shared_memory.machine_stats[machine_id].num_of_processes),
+			     (shared_memory.machine_stats[machine_id].load_factor),
+			     (shared_memory.machine_stats[machine_id].packets_per_second),
+			     (shared_memory.machine_stats[machine_id].discards_per_second));
     // mark as unread
-
+    shared_memory.machine_stats[machine_id].read=0
     //------------------------------------
     // exit critical setion for monitor
     //------------------------------------
-
+    check sem_post(mutex);
+    if(check==-1){
+         perror("Error: error posting semaphore.\n");
+         exit(1);
+    }
 
 }
 
@@ -216,7 +236,11 @@ void * reader_thread(void * parms){
         threadLog('R',"Readeer Thread loop start", num_machines);
 
 
-        // aquire stats semaphore
+        int check=sem_wait(access_stats);
+        if(check==-1){
+            perror("ERROR: stats already being accessed")
+            exit(1);
+        }
 
         
         threadLog('R',"Readeer Thread loop accessing_stats lock aquired", num_machines);
@@ -289,6 +313,11 @@ void * printer_thread(void * parms){
         msleep(print_period);
         
         // aquire summary mutex
+        int check=sem_wait(access_summary);
+        if(check==-1){
+            perror("ERROR: summary semaphore already raised\n");
+            exit(1);
+        }
         
         // get current time
         
@@ -303,7 +332,11 @@ void * printer_thread(void * parms){
         }
         
         // release summary mutex
-
+        check=sem_post(access_summary);
+        if(check==-1){
+            perror("ERROR\n");
+            exit(1);
+        }
 
         //Are the monitors still running.
     }
