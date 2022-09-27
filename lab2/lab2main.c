@@ -102,8 +102,8 @@ int main(int argc, char * argv[]){
     // TODO: stage 2
     // start reader thread
     pthread_t * reader_id;
-    reader_param->shmemptr=shared_memory;
-    reader_param->num_machines=num_monitor_threads;
+    reader_param->shmemptr=&shared_memory;
+    reader_param->num_machines=num_machines;
     reader_thread(reader_param);
 
     // TODO: stage 3
@@ -173,6 +173,8 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
+    } else{
+        threadLog('M',"monitor thread loop mutex lock aquired", num_machines);
     }
     shared_memory.machine_stats[machine_id].read++;
     if(shared_memory.machine_stats[machine_id].read==1){
@@ -181,12 +183,17 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
-    }}
+    } else {
+        threadLog('M',"monitor thread loop access_stats lock aquired", num_machines);
+    }
+    }
 
     check=sem_post(mutex);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
+    } else{
+        threadLog('M',"monitor thread loop mutex unlock aquired", num_machines);
     }
     //------------------------------------
     // monitor critical section
@@ -207,6 +214,8 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
+    } else{
+        threadLog('M',"monitor thread loop mutex lock aquired", num_machines);
     }
 
     colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d",machine_id,status_id,
@@ -222,19 +231,21 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
         if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
+    } else{
+        threadLog('M',"monitor Thread loop accessing_stats unlock aquired", num_machines);
     }
     }
     //------------------------------------
     // exit critical setion for monitor
     //------------------------------------
-    check sem_post(access_stats);
+    check = sem_post(mutex);
     if(check == -1) {
         perror("Error: error posting semaphore.\n");
         exit(1);
-
+    } else{
+        threadLog('M',"monitor thread loop mutex unlock aquired", num_machines);
     }
-
-}
+}while(1);
 
 
 // stage 2
