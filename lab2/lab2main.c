@@ -167,8 +167,23 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     //------------------------------------
     //  enter critical section for monitor
     //------------------------------------
+    do{
     ThreadLog('M','Entering critical monitor section.\n')
     int check = sem_wait(mutex);
+    if(check==-1) {
+        perror("Error: monitor already in critical section\n");
+        exit(1);
+    }
+    shared_memory.machine_stats[machine_id].read++;
+    if(shared_memory.machine_stats[machine_id].read==1){
+
+    check = sem_wait(access_stats);
+    if(check==-1) {
+        perror("Error: monitor already in critical section\n");
+        exit(1);
+    }}
+
+    check=sem_post(mutex);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
@@ -188,6 +203,12 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 
     
     // report if overwritten or normal case (Stage 2)
+    check=sem_wait(mutex);
+    if(check==-1) {
+        perror("Error: monitor already in critical section\n");
+        exit(1);
+    }
+
     colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d",machine_id,status_id,
 			     (shared_memory.machine_stats[machine_id].machine_state),
 			     (shared_memory.machine_stats[machine_id].num_of_processes),
@@ -195,21 +216,14 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 			     (shared_memory.machine_stats[machine_id].packets_per_second),
 			     (shared_memory.machine_stats[machine_id].discards_per_second));
     // mark as unread
-    shared_memory.machine_stats[machine_id].read=0
-    //------------------------------------
-    // exit critical setion for monitor
-    //------------------------------------
-    check sem_post(mutex);
-    if(check==-1){
-         perror("Error: error posting semaphore.\n");
-         exit(1);
-=======
-    
-    // report if overwritten or normal case (Stage 2)
-    
-    
-    // mark as unread
-    shared_memory.machine_stats[machine_id].read=0;
+    shared_memory.machine_stats[machine_id].read--;
+    if(shared_memory.machine_stats[machine_id].read==0) {
+        check=sem_post(access_stats);
+        if(check==-1) {
+        perror("Error: monitor already in critical section\n");
+        exit(1);
+    }
+    }
     //------------------------------------
     // exit critical setion for monitor
     //------------------------------------
@@ -277,7 +291,7 @@ void * reader_thread(void * parms){
         
         
         // release stats semaphore
- 
+        
         threadLog('R',"Readeer Thread loop  accessing_stats lock released", num_machines);
 
 
