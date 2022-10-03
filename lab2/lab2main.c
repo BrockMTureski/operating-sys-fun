@@ -8,6 +8,7 @@
 //-
 
 #include "common.h"
+#include <stdio.h>
 
 
 struct monitor_thread_info monitor_threads[MAX_MACHINES];
@@ -102,9 +103,9 @@ int main(int argc, char * argv[]){
     // TODO: stage 2
     // start reader thread
     pthread_t * reader_id;
-    reader_param->shmemptr=&shared_memory;
-    reader_param->num_machines=num_machines;
-    reader_thread(reader_param);
+    reader_param.num_machines=num_monitor_threads;
+    reader_param.shmemptr=&shared_memory;
+    reader_thread(&reader_param);
 
     // TODO: stage 3
     // start printer thread
@@ -167,33 +168,36 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     //------------------------------------
     //  enter critical section for monitor
     //------------------------------------
-    do{
-    ThreadLog('M','Entering critical monitor section.\n')
-    int check = sem_wait(mutex);
-    if(check==-1) {
-        perror("Error: monitor already in critical section\n");
-        exit(1);
-    } else{
-        threadLog('M',"monitor thread loop mutex lock aquired", num_machines);
-    }
-    shared_memory.machine_stats[machine_id].read++;
-    if(shared_memory.machine_stats[machine_id].read==1){
-
+    shared_memory.monitorCount++;
+    
+    
+    threadLog('M',"Entering critical monitor section.\n");
+    int check;
     check = sem_wait(access_stats);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
-    } else {
-        threadLog('M',"monitor thread loop access_stats lock aquired", num_machines);
+    } else{
+        threadLog('M',"monitor thread loop mutex lock aquired");
+    }
+
+    shared_memory.machine_stats[machine_id].read++;
+    if(shared_memory.machine_stats[machine_id].read==0){
+        check = sem_wait(mutex);
+        if(check==-1) {
+            perror("Error: monitor already in critical section\n");
+            exit(1);
+    }   else {
+            threadLog('M',"monitor thread loop access_stats lock aquired");
     }
     }
 
-    check=sem_post(mutex);
+    check=sem_post(access_stats);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
     } else{
-        threadLog('M',"monitor thread loop mutex unlock aquired", num_machines);
+        threadLog('M',"monitor thread loop mutex unlock aquired");
     }
     //------------------------------------
     // monitor critical section
@@ -210,7 +214,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 
     
     // report if overwritten or normal case (Stage 2)
-    check=sem_wait(mutex);
+    check=sem_wait(access_stats);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
@@ -226,26 +230,31 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 			     (shared_memory.machine_stats[machine_id].discards_per_second));
     // mark as unread
     shared_memory.machine_stats[machine_id].read--;
-    if(shared_memory.machine_stats[machine_id].read==0) {
-        check=sem_post(access_stats);
+
+    //check if monitor count is 0 if 0 exit
+    if(shared_memory.monitorCount==0) {
+        check=sem_post(mutex);
         if(check==-1) {
-        perror("Error: monitor already in critical section\n");
+        perror("Error: access_stats sem already unlocked.\n");
         exit(1);
     } else{
-        threadLog('M',"monitor Thread loop accessing_stats unlock aquired", num_machines);
+        threadLog('M',"monitor Thread loop accessing_stats unlock aquired");
+        exit(1);
     }
     }
     //------------------------------------
     // exit critical setion for monitor
     //------------------------------------
-    check = sem_post(mutex);
+    
+    check = sem_post(access_stats);
     if(check == -1) {
         perror("Error: error posting semaphore.\n");
         exit(1);
     } else{
-        threadLog('M',"monitor thread loop mutex unlock aquired", num_machines);
+        threadLog('M',"monitor thread loop access_stats unlock aquired");
+        shared_memory.monitorCount--;
     }
-}while(1);
+}
 
 
 // stage 2
@@ -283,7 +292,7 @@ void * reader_thread(void * parms){
 
         int check=sem_wait(access_stats);
         if(check==-1){
-            perror("ERROR: stats already being accessed")
+            perror("ERROR: stats already being accessed");
             exit(1);
         }
 
