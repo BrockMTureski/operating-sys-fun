@@ -1,0 +1,10 @@
+Documentation 3/3
+    Great!
+Code Correctness 3/3
+    You should be checking if proc_create returns NULL and returning -ENOMEM if so.
+    Looks good!
+Code Clarity 2/2
+    Looks good!
+Testing 1.5/2
+    You're supposed to test with different programs (not only cat).
+    Also, just so you know, the name of a file containing a '.' is simply a convention; it does not formally give the file a type.
