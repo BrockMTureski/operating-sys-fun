@@ -109,7 +109,11 @@ int main(int argc, char * argv[]){
 
     // TODO: stage 3
     // start printer thread
-    
+    pthread_t * printer_id; 
+    printer_param.num_machines=num_monitor_threads;
+    printer_param.shmemptr=&shared_memory;
+    printer_thread(&printer_param);
+
     // ---------------------------------------------------
     // FINISH - use pthread_exit instead of return.
     // When the main program finishes all threads are 
@@ -219,7 +223,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
         perror("Error: monitor already in critical section\n");
         exit(1);
     } else{
-        threadLog('M',"monitor thread loop mutex lock aquired", num_machines);
+        threadLog('M',"monitor thread loop mutex lock aquired");
     }
 
     colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d",machine_id,status_id,
@@ -299,7 +303,7 @@ void * reader_thread(void * parms){
         
         threadLog('R',"Readeer Thread loop accessing_stats lock aquired", num_machines);
 
-        // check for updates toeach machine
+        // check for updates to each machine
         // collect stats for all machines
         
         
@@ -325,6 +329,7 @@ void * reader_thread(void * parms){
         //=======================
         
         // lock summary semaphore
+        sem_wait(access_summary); //is it supposed to be access_summary 
         
         // write summary checksum
         
@@ -333,7 +338,11 @@ void * reader_thread(void * parms){
         // calculate new averages
         
         // releast summary semaphore
-        
+        check=sem_post(access_summary);
+        if(check==-1){
+            perror("ERROR\n");
+            exit(1);
+        }
         //=======================
         // are the monitors still running? (Stage 2)
         //=======================
@@ -393,6 +402,7 @@ void * printer_thread(void * parms){
         }
 
         //Are the monitors still running.
+        
     }
     
     pthread_exit(0);
