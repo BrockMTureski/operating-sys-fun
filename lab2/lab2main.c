@@ -106,14 +106,14 @@ int main(int argc, char * argv[]){
     pthread_t * reader_id;
     reader_param.num_machines=num_monitor_threads;
     reader_param.shmemptr=&shared_memory;
-    reader_thread(&reader_param);
+    pthread_create(&reader_id,&thread_attr,printer_thread,(void *)&(reader_param));
 
     // TODO: stage 3
     // start printer thread
     pthread_t * printer_id; 
     printer_param.num_machines=num_monitor_threads;
     printer_param.shmemptr=&shared_memory;
-    printer_thread(&printer_param);
+    pthread_create(&printer_id,&thread_attr,printer_thread,(void *)&(printer_param));
 
     // ---------------------------------------------------
     // FINISH - use pthread_exit instead of return.
