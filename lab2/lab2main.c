@@ -307,18 +307,22 @@ void * reader_thread(void * parms){
         
         for(int i = 0; i < MAX_MACHINES; i++){
            if(shared_memory.machine_stats[i].read == 0){
-               read_machines_state[i] = /*what goes here*/ ;
-               read_update_times[i] = /*what goes here*/ ;
+               read_machines_state[i] = shmemptr->machine_stats[i]->machine_state;
+               read_update_times[i] = shmemptr->machine_stats[i]->timestamp;
               
                shared_memory.machine_stats[i].read = 1;
-           } 
+           }
 
         }
         
         // collect stats for all machines
             //total_procs, total_lf, total_pps, total_dps
-        total_procs = //what ;
+        total_procs=0;
+        for(int i = 0; i < MAX_MACHINES; i++){
+        total_procs+=shmemptr->numMonitors;
+        total_lf = shmemptr->machine_stats;
 
+        }
             
         
         // release stats semaphore
@@ -348,7 +352,7 @@ void * reader_thread(void * parms){
         }
         
         // write summary checksum
-        
+        long sum_checksum=gen_summary_checksum();
 
         // update machine uptime sand last heard
         
