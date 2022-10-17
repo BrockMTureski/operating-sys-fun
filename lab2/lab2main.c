@@ -103,14 +103,14 @@ int main(int argc, char * argv[]){
     
     // TODO: stage 2
     // start reader thread
-    pthread_t * reader_id;
+    pthread_t reader_id;
     reader_param.num_machines=num_monitor_threads;
     reader_param.shmemptr=&shared_memory;
     pthread_create(&reader_id,&thread_attr,printer_thread,(void *)&(reader_param));
 
     // TODO: stage 3
     // start printer thread
-    pthread_t * printer_id; 
+    pthread_t printer_id; 
     printer_param.num_machines=num_monitor_threads;
     printer_param.shmemptr=&shared_memory;
     pthread_create(&printer_id,&thread_attr,printer_thread,(void *)&(printer_param));
@@ -361,7 +361,7 @@ void * reader_thread(void * parms){
         shmemptr->summary.checksum=gen_summary_checksum();
 
         // update machine uptime sand last heard
-        time_t now = Time(NULL)
+        time_t now = time(NULL);
 
         for(int i = 0; i<MAX_MACHINES;i++){
             shmemptr->summary.machine_last_updated[i]=int(now);
@@ -426,7 +426,7 @@ void * printer_thread(void * parms){
         }
         
         // get current time
-        time_t now = Time(NULL);
+        time_t now = time(NULL);
         // printe summary
         threadLog('P',"Printer Step");
 
