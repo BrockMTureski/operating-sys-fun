@@ -353,7 +353,7 @@ void * reader_thread(void * parms){
         // lock summary semaphore
         check=sem_wait(access_summary);  
         if(check==-1){
-             perror("ERROR\n");
+            perror("ERROR\n");
             exit(1);
         }
         
