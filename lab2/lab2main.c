@@ -9,6 +9,7 @@
 
 #include "common.h"
 #include <stdio.h>
+#include <time.h>
 
 
 struct monitor_thread_info monitor_threads[MAX_MACHINES];
@@ -318,10 +319,15 @@ void * reader_thread(void * parms){
         // collect stats for all machines
             //total_procs, total_lf, total_pps, total_dps
         total_procs=0;
-        for(int i = 0; i < MAX_MACHINES; i++){
-        total_procs+=shmemptr->numMonitors;
-        total_lf = shmemptr->machine_stats;
+        total_lf=0;
+        total_pps=0;
+        total_dps=0;
 
+        for(int i = 0; i < MAX_MACHINES; i++){
+        total_procs += shmemptr->machine_stats[i]->num_of_processes;
+        total_lf += shmemptr->machine_stats[i]->load_factor;
+        total_pps += shmemptr->machine_stats[i]->packets_per_second;
+        total_dps += shmemptr->machine_stats[i]->discards_per_second;
         }
             
         
@@ -352,12 +358,25 @@ void * reader_thread(void * parms){
         }
         
         // write summary checksum
-        long sum_checksum=gen_summary_checksum();
+        shmemptr->summary->checksum=gen_summary_checksum();
 
         // update machine uptime sand last heard
-        
+        time_t now = Time(NULL)
+
+        for(int i = 0; i<MAX_MACHINES;i++){
+            shmemptr->summary->machine_last_updated[i]=int(now);
+            if(shmemptr->summary->machines_online_since[i]==NULL){
+                shmemptr->summary->machines_online_since[i]==NULL;
+            }    
+        }
+
         // calculate new averages
-        
+        if(num_machines!=0){
+            shmemptr->summary->avg_procs=total_procs/num_machines;
+            shmemptr->summary->avg_lf=total_lf/num_machines;
+            shmemptr->summary->avg_pps=total_pps/num_machines;
+            shmemptr->summary->avg_dps=total_dps/num_machines;
+        }
         // releast summary semaphore
         check=sem_post(access_summary);
         if(check==-1){
@@ -367,8 +386,8 @@ void * reader_thread(void * parms){
         //=======================
         // are the monitors still running? (Stage 2)
         //=======================
-        if(shmemptr->numMonitors == 0){   //forget how to access value of numMonitors
-            more_updates = 0;
+        if(shmemptr->numMonitors == 0){
+                more_updates = 0;
         }
        
         
@@ -407,7 +426,7 @@ void * printer_thread(void * parms){
         }
         
         // get current time
-        
+        time_t now = Time(NULL);
         // printe summary
         threadLog('P',"Printer Step");
 
@@ -416,6 +435,7 @@ void * printer_thread(void * parms){
         printf("-----------------------------------------------------\n");
         
         for (int i = 0; i < num_machines; i++){
+        printf("  %d      %d   %d                         %d",i,shmemptr->summary->machines_state[i],(now - shmemptr->summary->machines_online_since[i]),shmemptr->summary->machines_last_updated[i])
         }
         
         // release summary mutex
@@ -426,7 +446,7 @@ void * printer_thread(void * parms){
         }
 
         //Are the monitors still running.
-        if(shmemptr->numMonitors == 0){  //forget how to access value of numMonitors 
+        if(shmemptr->numMonitors == 0){ 
             more_updates=0;
         }
     }
