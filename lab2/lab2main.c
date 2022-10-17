@@ -88,7 +88,7 @@ int main(int argc, char * argv[]){
     pthread_attr_init(&thread_attr);
 
     // ---------------------------------------------------
-    // START MONITOR TREADS
+    // START MONITOR THREADS
     // start a thread for each monitor.
     // the monitor_threads array is used to pass
     // parameters
@@ -305,12 +305,29 @@ void * reader_thread(void * parms){
 
         // check for updates to each machine
         
+        for(int i = 0; i < MAX_MACHINES; i++){
+           if(shared_memory.machine_stats[i].read == 0){
+               read_machines_state[i] = /*what goes here*/ ;
+               read_update_times[i] = /*what goes here*/ ;
+              
+               shared_memory.machine_stats[i].read = 1;
+           } 
+
+        }
         
         // collect stats for all machines
-        
+            //total_procs, total_lf, total_pps, total_dps
+        total_procs = //what ;
+
+            
         
         // release stats semaphore
-        
+        check=sem_post(access_stats);
+        if(check==-1){
+            perror("ERROR\n");
+            exit(1);
+        }
+
         threadLog('R',"Readeer Thread loop  accessing_stats lock released", num_machines);
 
 
@@ -332,6 +349,7 @@ void * reader_thread(void * parms){
         
         // write summary checksum
         
+
         // update machine uptime sand last heard
         
         // calculate new averages
@@ -345,7 +363,10 @@ void * reader_thread(void * parms){
         //=======================
         // are the monitors still running? (Stage 2)
         //=======================
-        
+        if(shmemptr->numMonitors == 0){   //forget how to access value of numMonitors
+            more_updates = 0;
+        }
+       
         
         threadLog('R',"Readeer Thread loop end", num_machines);
     }
@@ -401,7 +422,9 @@ void * printer_thread(void * parms){
         }
 
         //Are the monitors still running.
-        
+        if(shmemptr->numMonitors == 0){  //forget how to access value of numMonitors 
+            more_updates=0;
+        }
     }
     
     pthread_exit(0);
