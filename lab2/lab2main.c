@@ -435,7 +435,7 @@ void * printer_thread(void * parms){
         printf("-----------------------------------------------------\n");
         
         for (int i = 0; i < num_machines; i++){
-        printf("  %d      %d   %d                         %d",i,shmemptr->summary.machines_state[i],(now - shmemptr->summary.machines_online_since[i]),shmemptr->summary.machines_last_updated[i]);
+        printf("  %d      %d   %d                         %d",i,int(shmemptr->summary.machines_state[i]),int((now - shmemptr->summary.machines_online_since[i])),int(shmemptr->summary.machines_last_updated[i]));
         }
         
         // release summary mutex
