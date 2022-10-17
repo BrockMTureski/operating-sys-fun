@@ -304,14 +304,9 @@ void * reader_thread(void * parms){
         threadLog('R',"Readeer Thread loop accessing_stats lock aquired", num_machines);
 
         // check for updates to each machine
+        
+        
         // collect stats for all machines
-        
-        
-        
-        
-        
-        
-        
         
         
         // release stats semaphore
@@ -329,7 +324,11 @@ void * reader_thread(void * parms){
         //=======================
         
         // lock summary semaphore
-        sem_wait(access_summary); //is it supposed to be access_summary 
+        check=sem_wait(access_summary);  
+        if(check==-1){
+             perror("ERROR\n");
+            exit(1);
+        }
         
         // write summary checksum
         
