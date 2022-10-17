@@ -353,29 +353,29 @@ void * reader_thread(void * parms){
         // lock summary semaphore
         check=sem_wait(access_summary);  
         if(check==-1){
-            perror("ERROR\n");
+             perror("ERROR\n");
             exit(1);
         }
         
         // write summary checksum
-        shmemptr->summary->checksum=gen_summary_checksum();
+        shmemptr->summary.checksum=gen_summary_checksum();
 
         // update machine uptime sand last heard
         time_t now = Time(NULL)
 
         for(int i = 0; i<MAX_MACHINES;i++){
-            shmemptr->summary->machine_last_updated[i]=int(now);
-            if(shmemptr->summary->machines_online_since[i]==NULL){
-                shmemptr->summary->machines_online_since[i]==NULL;
+            shmemptr->summary.machine_last_updated[i]=int(now);
+            if(shmemptr->summary.machines_online_since[i]==NULL){
+                shmemptr->summary.machines_online_since[i]==NULL;
             }    
         }
 
         // calculate new averages
         if(num_machines!=0){
-            shmemptr->summary->avg_procs=total_procs/num_machines;
-            shmemptr->summary->avg_lf=total_lf/num_machines;
-            shmemptr->summary->avg_pps=total_pps/num_machines;
-            shmemptr->summary->avg_dps=total_dps/num_machines;
+            shmemptr->summary.avg_procs=total_procs/num_machines;
+            shmemptr->summary.avg_lf=total_lf/num_machines;
+            shmemptr->summary.avg_pps=total_pps/num_machines;
+            shmemptr->summary.avg_dps=total_dps/num_machines;
         }
         // releast summary semaphore
         check=sem_post(access_summary);
@@ -435,7 +435,7 @@ void * printer_thread(void * parms){
         printf("-----------------------------------------------------\n");
         
         for (int i = 0; i < num_machines; i++){
-        printf("  %d      %d   %d                         %d",i,shmemptr->summary->machines_state[i],(now - shmemptr->summary->machines_online_since[i]),shmemptr->summary->machines_last_updated[i]);
+        printf("  %d      %d   %d                         %d",i,shmemptr->summary.machines_state[i],(now - shmemptr->summary.machines_online_since[i]),shmemptr->summary.machines_last_updated[i]);
         }
         
         // release summary mutex
