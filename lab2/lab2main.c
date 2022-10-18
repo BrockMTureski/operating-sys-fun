@@ -292,17 +292,18 @@ void * reader_thread(void * parms){
     float total_lf;
     
     long summary_checksum;
+    time_t start_t,current;
+    int start_init=0;
+
+    start_t=time(NULL);
+
     
     threadLog('R',"Reader Thread: %d machines", num_machines);
     msleep(1000);
     
-    while(more_updates){
-        time_t start_t,current;
-        threadLog('R',"Reader Thread loop start", num_machines);
 
-        if(&start_t==NULL){
-            start_t=clock();
-        }
+    while(more_updates){
+        threadLog('R',"Reader Thread loop start", num_machines);
 
         int check=sem_wait(access_stats);
         if(check==-1){
@@ -376,12 +377,13 @@ void * reader_thread(void * parms){
 
         // update machine uptime sand last heard
         
-        current = clock();
+        current = time(NULL);
 
         for(int i = 0; i<MAX_MACHINES;i++){
-            shmemptr->summary.machines_last_updated[i]=start_t;
-            if(start_t!=shmemptr->summary.machines_online_since[i]){
-                shmemptr->summary.machines_online_since[i];
+            shmemptr->summary.machines_last_updated[i]=current;
+            if(start_init!=1){
+                shmemptr->summary.machines_online_since[i]=start_t;
+                start_init=1;
             }}
 
         // calculate new averages
@@ -440,7 +442,7 @@ void * printer_thread(void * parms){
         }
         
         // get current time
-        clock_t end_t = clock();
+        clock_t end_t = time(NULL);
         // printe summary
         threadLog('P',"Printer Step");
 
@@ -449,8 +451,8 @@ void * printer_thread(void * parms){
         printf("-----------------------------------------------------\n");
         
         for (int i = 0; i < num_machines; i++){
-            long k=(long)(end_t - shmemptr->summary.machines_online_since[i]);
-            long f=(long)(shmemptr->summary.machines_last_updated[i]);
+            long uptime=(long)(end_t - shmemptr->summary.machines_online_since[i]);
+            long lastupdate=(long)(shmemptr->summary.machines_last_updated[i]-shmemptr->summary.machines_online_since[i]);
 
         printf("%d        %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
         }
