@@ -300,7 +300,7 @@ void * reader_thread(void * parms){
         time_t start_t,current;
         threadLog('R',"Reader Thread loop start", num_machines);
 
-        if(start_t==NULL){
+        if(&start_t==NULL){
             start_t=clock();
         }
 
@@ -440,7 +440,7 @@ void * printer_thread(void * parms){
         }
         
         // get current time
-        end_t = clock();
+        clock_t end_t = clock();
         // printe summary
         threadLog('P',"Printer Step");
 
