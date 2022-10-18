@@ -319,7 +319,7 @@ void * reader_thread(void * parms){
                read_machines_state[i] = shmemptr->machine_stats[i].machine_state;
                read_update_times[i] = shmemptr->machine_stats[i].timestamp;
                
-               colourMsg(machId[i] ,CONSOLE_CYAN,"Machine is down\n");
+               colourMsg(machId[i] ,CONSOLE_CYAN,"Machine is down");
                
                shared_memory.machine_stats[i].read = 1;
            }
@@ -381,7 +381,7 @@ void * reader_thread(void * parms){
         for(int i = 0; i<MAX_MACHINES;i++){
             shmemptr->summary.machines_last_updated[i]=current;
             if(start_t!=shmemptr->summary.machines_online_since[i]){
-                shmemptr->summary.machines_online_since[i]
+                shmemptr->summary.machines_online_since[i];
             }}
 
         // calculate new averages
@@ -440,7 +440,7 @@ void * printer_thread(void * parms){
         }
         
         // get current time
-        end_t = clock();
+        long end_t = clock();
         // printe summary
         threadLog('P',"Printer Step");
 
