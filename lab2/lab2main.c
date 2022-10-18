@@ -297,7 +297,7 @@ void * reader_thread(void * parms){
     msleep(1000);
     
     while(more_updates){
-        time_t,start_t;
+        time_t start_t,current;
         threadLog('R',"Reader Thread loop start", num_machines);
 
         if(start_t==NULL){
@@ -376,10 +376,10 @@ void * reader_thread(void * parms){
 
         // update machine uptime sand last heard
         
-        time_t = clock();
+        current = clock();
 
         for(int i = 0; i<MAX_MACHINES;i++){
-            shmemptr->summary.machines_last_updated[i]=time_t;
+            shmemptr->summary.machines_last_updated[i]=current;
             if(start_t!=shmemptr->summary.machines_online_since[i]){
                 shmemptr->summary.machines_online_since[i]
             }}
