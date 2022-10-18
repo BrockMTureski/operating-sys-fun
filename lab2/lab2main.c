@@ -446,7 +446,7 @@ void * printer_thread(void * parms){
             long k=(now - shmemptr->summary.machines_online_since[i]);
             long f=(shmemptr->summary.machines_last_updated[i]);
 
-        printf("  %d      %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
+        printf("%d        %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
         }
         
         // release summary mutex
