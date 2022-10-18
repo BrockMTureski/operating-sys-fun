@@ -106,14 +106,14 @@ int main(int argc, char * argv[]){
     pthread_t reader_id;
     reader_param.num_machines=num_monitor_threads;
     reader_param.shmemptr=&shared_memory;
-    pthread_create(&reader_id,&thread_attr,printer_thread,(void *)&(reader_param));
+    pthread_create(&reader_id, &thread_attr, reader_thread, (void *)&(reader_param));
 
     // TODO: stage 3
     // start printer thread
     pthread_t printer_id; 
     printer_param.num_machines=num_monitor_threads;
     printer_param.shmemptr=&shared_memory;
-    pthread_create(&printer_id,&thread_attr,printer_thread,(void *)&(printer_param));
+    pthread_create(&printer_id, &thread_attr, printer_thread, (void *)&(printer_param));
 
     // ---------------------------------------------------
     // FINISH - use pthread_exit instead of return.
@@ -364,10 +364,10 @@ void * reader_thread(void * parms){
         time_t now = time(NULL);
 
         for(int i = 0; i<MAX_MACHINES;i++){
-            shmemptr->summary.machine_last_updated[i]=int(now);
-            if(shmemptr->summary.machines_online_since[i]==NULL){
-                shmemptr->summary.machines_online_since[i]==NULL;
-            }    
+            shmemptr->summary.machines_last_updated[i]=now;
+           // if(shmemptr->summary.machines_online_since[i]==NULL){
+            //    shmemptr->summary.machines_online_since[i]==NULL;
+           // }    
         }
 
         // calculate new averages
@@ -435,7 +435,9 @@ void * printer_thread(void * parms){
         printf("-----------------------------------------------------\n");
         
         for (int i = 0; i < num_machines; i++){
-        printf("  %d      %d   %d                         %d",i,int(shmemptr->summary.machines_state[i]),int((now - shmemptr->summary.machines_online_since[i])),int(shmemptr->summary.machines_last_updated[i]));
+            long k=(now - shmemptr->summary.machines_online_since[i]);
+            long f=(shmemptr->summary.machines_last_updated[i]);
+        printf("  %d      %d   %ld                         %ld",i,shmemptr->summary.machines_state[i],k,f);
         }
         
         // release summary mutex
