@@ -6,7 +6,9 @@
 //
 // Copyright 2022 Iffy Maduabuchi, Thomas Dean
 //-
-
+//ELEC 377 Lab 2
+//Emma Flindall 20212230; Brock Tureski 20151968
+//18-10-2022
 #define CLOCKS_PER_SEC = 1000000
 
 #include "common.h"
@@ -179,12 +181,11 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     //------------------------------------
     //  enter critical section for monitor
     //------------------------------------
-    shared_memory.monitorCount++;
     
     
     threadLog('M',"Entering critical monitor section.\n");
     int check;
-    check = sem_wait(access_stats);
+    check = sem_wait(mutex);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
@@ -194,7 +195,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 
     shared_memory.machine_stats[machine_id].read++;
     if(shared_memory.machine_stats[machine_id].read==0){
-        check = sem_wait(mutex);
+        check = sem_wait(access_stats);
         if(check==-1) {
             perror("Error: monitor already in critical section\n");
             exit(1);
@@ -202,8 +203,9 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
             threadLog('M',"monitor thread loop access_stats lock aquired");
     }
     }
+    shared_memory.monitorCount++;
 
-    check=sem_post(access_stats);
+    check=sem_post(mutex);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
         exit(1);
@@ -221,16 +223,12 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     shared_memory.machine_stats[machine_id].load_factor=cur_read_stat->load_factor;
     shared_memory.machine_stats[machine_id].packets_per_second=cur_read_stat->packets_per_second;
     shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second;
+    shared_memory.machine_stats[machine_id].timestamp=cur_read_stat->timestamp;
+    
+    
 
 
     // report if overwritten or normal case (Stage 2)
-    check=sem_wait(access_stats);
-    if(check==-1) {
-        perror("Error: monitor already in critical section\n");
-        exit(1);
-    } else{
-        threadLog('M',"monitor thread loop mutex lock aquired");
-    }
 
     colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d",machine_id,status_id,
 			     (shared_memory.machine_stats[machine_id].machine_state),
@@ -239,30 +237,44 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 			     (shared_memory.machine_stats[machine_id].packets_per_second),
 			     (shared_memory.machine_stats[machine_id].discards_per_second));
     // mark as unread
-    shared_memory.machine_stats[machine_id].read--;
+    shared_memory.machine_stats[machine_id].read=0;
 
     //check if monitor count is 0 if 0 exit
     if(shared_memory.monitorCount==0) {
-        check=sem_post(mutex);
+        check=sem_post(access_stats);
         if(check==-1) {
         perror("Error: access_stats sem already unlocked.\n");
         exit(1);
     } else{
-        threadLog('M',"monitor Thread loop accessing_stats unlock aquired");
+        threadLog('M',"error, monitor count is 0");
         exit(1);
     }
+    }
+    check = sem_wait(mutex);
+    if(check == -1) {
+        perror("Error: error posting semaphore.\n");
+        exit(1);
+    } else{
+        threadLog('M',"monitor thread loop mutex unlock aquired");
+        shared_memory.monitorCount--;
     }
     //------------------------------------
     // exit critical setion for monitor
     //------------------------------------
-    
     check = sem_post(access_stats);
     if(check == -1) {
         perror("Error: error posting semaphore.\n");
         exit(1);
     } else{
         threadLog('M',"monitor thread loop access_stats unlock aquired");
-        shared_memory.monitorCount--;
+    }
+
+    check = sem_post(mutex);
+    if(check == -1) {
+        perror("Error: error posting semaphore.\n");
+        exit(1);
+    } else{
+        threadLog('M',"monitor thread loop mutex unlock aquired");
     }
 }
 
@@ -294,6 +306,12 @@ void * reader_thread(void * parms){
     long summary_checksum;
     time_t start_t,current;
     int start_init=0;
+    int updates=0;
+    total_procs=0;
+    total_lf=0;
+    total_pps=0;
+    total_dps=0;
+    int updatesRead=0;
 
     start_t=time(NULL);
 
@@ -311,34 +329,25 @@ void * reader_thread(void * parms){
             exit(1);
         }
 
-        
-        threadLog('R',"Reader Thread loop accessing_stats lock aquired", num_machines);
 
         // check for updates to each machine
-        for(int i = 0; i < MAX_MACHINES; i++){
+        for(int i = 0; i < num_machines; i++){
            if(shared_memory.machine_stats[i].read == 0){
-               read_machines_state[i] = shmemptr->machine_stats[i].machine_state;
-               read_update_times[i] = shmemptr->machine_stats[i].timestamp;
+                // collect stats for all machines
+                read_machines_state[i] = shmemptr->machine_stats[i].machine_state;
+                read_update_times[i] = shmemptr->machine_stats[i].timestamp;
+                total_procs += shmemptr->machine_stats[i].num_of_processes;
+                total_lf += shmemptr->machine_stats[i].load_factor;
+                total_pps += shmemptr->machine_stats[i].packets_per_second;
+                total_dps += shmemptr->machine_stats[i].discards_per_second;
                
-               colourMsg(machId[i] ,CONSOLE_CYAN,"Machine is down");
-               
+               colourMsg(machId[i] ,CONSOLE_CYAN,"read flag disabled");
+               updatesRead++;
                shared_memory.machine_stats[i].read = 1;
            }
 
         }
-        
-        // collect stats for all machines
-        total_procs=0;
-        total_lf=0;
-        total_pps=0;
-        total_dps=0;
 
-        for(int i = 0; i < MAX_MACHINES; i++){
-        total_procs += shmemptr->machine_stats[i].num_of_processes;
-        total_lf += shmemptr->machine_stats[i].load_factor;
-        total_pps += shmemptr->machine_stats[i].packets_per_second;
-        total_dps += shmemptr->machine_stats[i].discards_per_second;
-        }
         
         //output stats for all machines
         colourMsg('T', CONSOLE_PURPLE, "Total processes = %d", total_procs);
@@ -379,8 +388,8 @@ void * reader_thread(void * parms){
         
         current = time(NULL);
 
-        for(int i = 0; i<MAX_MACHINES;i++){
-            shmemptr->summary.machines_last_updated[i]=current;
+        for(int i = 0; i<num_machines;i++){
+            shmemptr->summary.machines_last_updated[i]=read_update_times;
             if(start_init!=1){
                 shmemptr->summary.machines_online_since[i]=start_t;
                 start_init=1;
@@ -388,10 +397,10 @@ void * reader_thread(void * parms){
 
         // calculate new averages
         if(num_machines!=0){
-            shmemptr->summary.avg_procs=total_procs/num_machines;
-            shmemptr->summary.avg_lf=total_lf/num_machines;
-            shmemptr->summary.avg_pps=total_pps/num_machines;
-            shmemptr->summary.avg_dps=total_dps/num_machines;
+            shmemptr->summary.avg_procs=total_procs/updatesRead;
+            shmemptr->summary.avg_lf=total_lf/updatesRead;
+            shmemptr->summary.avg_pps=total_pps/updatesRead;
+            shmemptr->summary.avg_dps=total_dps/updatesRead;
         }
         // releast summary semaphore
         check=sem_post(access_summary);
@@ -452,7 +461,7 @@ void * printer_thread(void * parms){
         
         for (int i = 0; i < num_machines; i++){
             long uptime=(long)(end_t - shmemptr->summary.machines_online_since[i]);
-            long lastupdate=(long)(shmemptr->summary.machines_last_updated[i]-shmemptr->summary.machines_online_since[i]);
+            long lastupdate=(long)(shmemptr->summary.machine_last_updated[i]);
 
         printf("%d        %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
         }
