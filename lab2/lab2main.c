@@ -379,7 +379,7 @@ void * reader_thread(void * parms){
         current = clock();
 
         for(int i = 0; i<MAX_MACHINES;i++){
-            shmemptr->summary.machines_last_updated[i]=current;
+            shmemptr->summary.machines_last_updated[i]=start_t;
             if(start_t!=shmemptr->summary.machines_online_since[i]){
                 shmemptr->summary.machines_online_since[i];
             }}
