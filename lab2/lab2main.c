@@ -170,13 +170,15 @@ void init_shared( struct shared_segment * shmemptr ){
 //-
 
 void monitor_update_status_entry(int machine_id, int status_id, struct status * cur_read_stat, struct shared_segment * shmemptr ){
+    
 
-    colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d",machine_id,status_id,
+    colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d,%d",machine_id,status_id,
 			     (cur_read_stat->machine_state),
 			     (cur_read_stat->num_of_processes),
 			     (cur_read_stat->load_factor),
 			     (cur_read_stat->packets_per_second),
-			     (cur_read_stat->discards_per_second));
+			     (cur_read_stat->discards_per_second),
+                 (cur_read_stat->timestamp));
 
     //------------------------------------
     //  enter critical section for monitor
@@ -184,7 +186,8 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     
     
     threadLog('M',"Entering critical monitor section.\n");
-    int check;
+    int check,updated;
+    updated=0;
     check = sem_wait(mutex);
     if(check==-1) {
         perror("Error: monitor already in critical section\n");
@@ -218,24 +221,37 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 
     
     // store the monitor data
+    if(shared_memory.machine_stats[machine_id].machine_state!=cur_read_stat->machine_state){
     shared_memory.machine_stats[machine_id].machine_state=cur_read_stat->machine_state;
+    updated=1;
+    } if(shared_memory.machine_stats[machine_id].num_of_processes!=cur_read_stat->num_of_processes){
     shared_memory.machine_stats[machine_id].num_of_processes=cur_read_stat->num_of_processes;
+    updated=1;
+    }if(shared_memory.machine_stats[machine_id].load_factor!=cur_read_stat->load_factor){
     shared_memory.machine_stats[machine_id].load_factor=cur_read_stat->load_factor;
+    updated=1;
+    }if(shared_memory.machine_stats[machine_id].packets_per_second!=cur_read_stat->packets_per_second){
     shared_memory.machine_stats[machine_id].packets_per_second=cur_read_stat->packets_per_second;
+    updated=1;
+    }if(shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second){
     shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second;
+    updated=1;
+    }if(shared_memory.machine_stats[machine_id].timestamp=cur_read_stat->timestamp){
     shared_memory.machine_stats[machine_id].timestamp=cur_read_stat->timestamp;
+    updated=1;
+    }
     
-    
-
-
     // report if overwritten or normal case (Stage 2)
-
-    colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d",machine_id,status_id,
-			     (shared_memory.machine_stats[machine_id].machine_state),
-			     (shared_memory.machine_stats[machine_id].num_of_processes),
-			     (shared_memory.machine_stats[machine_id].load_factor),
-			     (shared_memory.machine_stats[machine_id].packets_per_second),
-			     (shared_memory.machine_stats[machine_id].discards_per_second));
+    if(updated==1){
+    colourMsg(machId[machine_id],CONSOLE_CYAN,"Machine %d updated.",)
+    colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d,%d",machine_id,status_id,
+			     (cur_read_stat->machine_state),
+			     (cur_read_stat->num_of_processes),
+			     (cur_read_stat->load_factor),
+			     (cur_read_stat->packets_per_second),
+			     (cur_read_stat->discards_per_second),
+                 (cur_read_stat->timestamp));
+    }
     // mark as unread
     shared_memory.machine_stats[machine_id].read=0;
 
