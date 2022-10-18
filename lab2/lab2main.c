@@ -449,8 +449,8 @@ void * printer_thread(void * parms){
         printf("-----------------------------------------------------\n");
         
         for (int i = 0; i < num_machines; i++){
-            long k=(long)(end_t - shmemptr->summary.machines_online_since[i])/CLOCKS_PER_SEC;
-            long f=(long)(shmemptr->summary.machines_last_updated[i])/CLOCKS_PER_SEC;
+            long k=(long)(end_t - shmemptr->summary.machines_online_since[i]);
+            long f=(long)(shmemptr->summary.machines_last_updated[i]);
 
         printf("%d        %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
         }
