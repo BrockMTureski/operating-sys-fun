@@ -2,6 +2,10 @@ ELEC 377 Lab 2
 Emma Flindall 20212230; Brock Tureski 20151968
 18-10-2022
 
-The purpose of this lab was to create a system with parallel threads that utilize semaphores
-to achieve synchronization. 
+Problem Statement:
+The purpose of this lab was to create a system with parallel threads that utilize semaphores to achieve synchronization. The system simulates a distributed system monitor.
 
+Describe how you solved the problem:
+
+
+Describe testing:
