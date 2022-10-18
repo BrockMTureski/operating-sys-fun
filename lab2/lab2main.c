@@ -290,11 +290,11 @@ void * reader_thread(void * parms){
     
     long summary_checksum;
     
-    threadLog('R',"Readeer Thread: %d machines", num_machines);
+    threadLog('R',"Reader Thread: %d machines", num_machines);
     msleep(1000);
     
     while(more_updates){
-        threadLog('R',"Readeer Thread loop start", num_machines);
+        threadLog('R',"Reader Thread loop start", num_machines);
 
 
         int check=sem_wait(access_stats);
@@ -304,7 +304,7 @@ void * reader_thread(void * parms){
         }
 
         
-        threadLog('R',"Readeer Thread loop accessing_stats lock aquired", num_machines);
+        threadLog('R',"Reader Thread loop accessing_stats lock aquired", num_machines);
 
         // check for updates to each machine
         
@@ -340,7 +340,7 @@ void * reader_thread(void * parms){
             exit(1);
         }
 
-        threadLog('R',"Readeer Thread loop  accessing_stats lock released", num_machines);
+        threadLog('R',"Reader Thread loop  accessing_stats lock released", num_machines);
 
 
         //checksum - consume time outside of critical section.
@@ -393,7 +393,7 @@ void * reader_thread(void * parms){
         }
        
         
-        threadLog('R',"Readeer Thread loop end", num_machines);
+        threadLog('R',"Reader Thread loop end", num_machines);
     }
     
     pthread_exit(0);
@@ -439,7 +439,8 @@ void * printer_thread(void * parms){
         for (int i = 0; i < num_machines; i++){
             long k=(now - shmemptr->summary.machines_online_since[i]);
             long f=(shmemptr->summary.machines_last_updated[i]);
-        printf("  %d      %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
+
+        printf("  %d      %d   %ld                      %ld\n",i,shmemptr->summary.machines_state[i],k,f);
         }
         
         // release summary mutex
