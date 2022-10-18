@@ -312,14 +312,15 @@ void * reader_thread(void * parms){
            if(shared_memory.machine_stats[i].read == 0){
                read_machines_state[i] = shmemptr->machine_stats[i].machine_state;
                read_update_times[i] = shmemptr->machine_stats[i].timestamp;
-              
+               
+               colourMsg(machId[i] ,CONSOLE_CYAN,"Machine is down\n");
+               
                shared_memory.machine_stats[i].read = 1;
            }
 
         }
         
         // collect stats for all machines
-            //total_procs, total_lf, total_pps, total_dps
         total_procs=0;
         total_lf=0;
         total_pps=0;
@@ -331,7 +332,12 @@ void * reader_thread(void * parms){
         total_pps += shmemptr->machine_stats[i].packets_per_second;
         total_dps += shmemptr->machine_stats[i].discards_per_second;
         }
-            
+        
+        //output stats for all machines
+        colourMsg('T', CONSOLE_PURPLE, "Total processes = %d", total_procs);
+        colourMsg('T', CONSOLE_PURPLE, "Total load factor = %f", total_lf);
+        colourMsg('T', CONSOLE_PURPLE, "Total packets per second = %d", total_pps);
+        colourMsg('T', CONSOLE_PURPLE, "Total discarded packets per second = %d", total_dps);           
         
         // release stats semaphore
         check=sem_post(access_stats);
@@ -440,7 +446,7 @@ void * printer_thread(void * parms){
             long k=(now - shmemptr->summary.machines_online_since[i]);
             long f=(shmemptr->summary.machines_last_updated[i]);
 
-        printf("  %d      %d   %ld                      %ld\n",i,shmemptr->summary.machines_state[i],k,f);
+        printf("  %d      %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
         }
         
         // release summary mutex
