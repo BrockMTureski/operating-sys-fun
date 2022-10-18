@@ -7,9 +7,12 @@
 // Copyright 2022 Iffy Maduabuchi, Thomas Dean
 //-
 
+#define CLOCKS_PER_SEC = 1000000
+
 #include "common.h"
 #include <stdio.h>
 #include <time.h>
+
 
 
 struct monitor_thread_info monitor_threads[MAX_MACHINES];
@@ -294,8 +297,12 @@ void * reader_thread(void * parms){
     msleep(1000);
     
     while(more_updates){
+        time_t,start_t;
         threadLog('R',"Reader Thread loop start", num_machines);
 
+        if(start_t==NULL){
+            start_t=clock();
+        }
 
         int check=sem_wait(access_stats);
         if(check==-1){
@@ -307,7 +314,6 @@ void * reader_thread(void * parms){
         threadLog('R',"Reader Thread loop accessing_stats lock aquired", num_machines);
 
         // check for updates to each machine
-        
         for(int i = 0; i < MAX_MACHINES; i++){
            if(shared_memory.machine_stats[i].read == 0){
                read_machines_state[i] = shmemptr->machine_stats[i].machine_state;
@@ -369,14 +375,14 @@ void * reader_thread(void * parms){
         shmemptr->summary.checksum=gen_summary_checksum();
 
         // update machine uptime sand last heard
-        time_t now = time(NULL);
+        
+        time_t = clock();
 
         for(int i = 0; i<MAX_MACHINES;i++){
-            shmemptr->summary.machines_last_updated[i]=now;
-           // if(shmemptr->summary.machines_online_since[i]==NULL){
-            //    shmemptr->summary.machines_online_since[i]==NULL;
-           // }    
-        }
+            shmemptr->summary.machines_last_updated[i]=time_t;
+            if(start_t!=shmemptr->summary.machines_online_since[i]){
+                shmemptr->summary.machines_online_since[i]
+            }}
 
         // calculate new averages
         if(num_machines!=0){
@@ -401,7 +407,7 @@ void * reader_thread(void * parms){
         
         threadLog('R',"Reader Thread loop end", num_machines);
     }
-    
+
     pthread_exit(0);
     // not reached.
     return NULL;
@@ -434,7 +440,7 @@ void * printer_thread(void * parms){
         }
         
         // get current time
-        time_t now = time(NULL);
+        end_t = clock();
         // printe summary
         threadLog('P',"Printer Step");
 
@@ -443,8 +449,8 @@ void * printer_thread(void * parms){
         printf("-----------------------------------------------------\n");
         
         for (int i = 0; i < num_machines; i++){
-            long k=(now - shmemptr->summary.machines_online_since[i]);
-            long f=(shmemptr->summary.machines_last_updated[i]);
+            long k=(long)(end_t - shmemptr->summary.machines_online_since[i])/CLOCKS_PER_SEC;
+            long f=(long)(shmemptr->summary.machines_last_updated[i])/CLOCKS_PER_SEC;
 
         printf("%d        %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
         }
