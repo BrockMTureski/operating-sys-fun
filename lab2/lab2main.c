@@ -477,9 +477,9 @@ void * printer_thread(void * parms){
         
         for (int i = 0; i < num_machines; i++){
             long uptime=(long)(end_t - shmemptr->summary.machines_online_since[i]);
-            long lastupdate=(long)(shmemptr->summary.machine_last_updated[i]);
+            long lastupdate=(long)(shmemptr->summary.machines_last_updated[i]);
 
-        printf("%d        %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
+        printf("%d        %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],uptime,lastupdate);
         }
         
         // release summary mutex
