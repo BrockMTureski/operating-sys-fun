@@ -139,10 +139,13 @@ int main(int argc, char * argv[]){
 
 
 void init_shared( struct shared_segment * shmemptr ){
+    mutex = sem_open(MUTEX_NAME, O_RDWR | O_CREAT, 0660, 1);
+    access_stats = sem_open(ACCESS_STATS_NAME, O_RDWR | O_CREAT, 0660, 1);
+    access_summary = sem_open(ACCESS_SUMMARY_NAME, O_RDWR | O_CREAT, 0660, 1);
 
-   if( mutex = sem_open(MUTEX_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
-   if( access_stats = sem_open(ACCESS_STATS_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
-   if( access_summary = sem_open(ACCESS_SUMMARY_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
+  // if( mutex = sem_open(MUTEX_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
+  // if( access_stats = sem_open(ACCESS_STATS_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
+  // if( access_summary = sem_open(ACCESS_SUMMARY_NAME, O_RDWR | O_CREAT, 0660, 1) == SEM_FAILED) perror("Error opening semaphore\n");
 
 	shmemptr -> monitorCount = 0;
 }
@@ -217,7 +220,6 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second;
 
 
-    
     // report if overwritten or normal case (Stage 2)
     check=sem_wait(access_stats);
     if(check==-1) {
@@ -437,7 +439,7 @@ void * printer_thread(void * parms){
         for (int i = 0; i < num_machines; i++){
             long k=(now - shmemptr->summary.machines_online_since[i]);
             long f=(shmemptr->summary.machines_last_updated[i]);
-        printf("  %d      %d   %ld                         %ld",i,shmemptr->summary.machines_state[i],k,f);
+        printf("  %d      %d   %ld                      %ld\n",i+1,shmemptr->summary.machines_state[i],k,f);
         }
         
         // release summary mutex
