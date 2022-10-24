@@ -52,7 +52,7 @@ int main() {
 
     char commandBuffer[CMD_BUFFSIZE];
     // note the plus one, allows for an extra null
-    char *args[MAXARGS+1];
+    char *args[MAXARGS*2+1];
 
     // print prompt.. fflush is needed because
     // stdout is line buffered, and won't
@@ -73,10 +73,10 @@ int main() {
 
     int char args[MAX_ARGS][cmdLen];
 	// split command line into words.(Step 2)
-    int args=splitCommandLine(commandBuffer,args,MAX_ARGS);
+    int numArgs=splitCommandLine(commandBuffer,args,MAX_ARGS-1);
 
 	// add a null to end of array (Step 2)
-    
+        args[numArgs]='\0';
 	// TODO
 
 	// debugging
@@ -146,9 +146,9 @@ char * skipChar(char * charPtr, char skip){
 
 int splitCommandLine(char * commandBuffer, char* args[], int maxargs){
     int f = 0;
-    int len=strlen(commandBuffer);
+    int len = strlen(commandBuffer);
     for(int i = 0; i<len;i++){
-        if(commandBuffer[i]==' ' && f<maxargs){
+        if(commandBuffer[i] == ' ' && f < maxargs){
             args[f]=skipChar(commandBuffer);
             f++;
         }
