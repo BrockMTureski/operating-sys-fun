@@ -233,10 +233,10 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     }if(shared_memory.machine_stats[machine_id].packets_per_second!=cur_read_stat->packets_per_second){
     shared_memory.machine_stats[machine_id].packets_per_second=cur_read_stat->packets_per_second;
     updated=1;
-    }if(shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second){
+    }if(shared_memory.machine_stats[machine_id].discards_per_second!=cur_read_stat->discards_per_second){
     shared_memory.machine_stats[machine_id].discards_per_second=cur_read_stat->discards_per_second;
     updated=1;
-    }if(shared_memory.machine_stats[machine_id].timestamp=cur_read_stat->timestamp){
+    }if(shared_memory.machine_stats[machine_id].timestamp!=cur_read_stat->timestamp){
     shared_memory.machine_stats[machine_id].timestamp=cur_read_stat->timestamp;
     updated=1;
     }
@@ -244,13 +244,14 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     // report if overwritten or normal case (Stage 2)
     if(updated==1){
     colourMsg(machId[machine_id],CONSOLE_CYAN,"Machine %d updated.",)
-    colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d,%d",machine_id,status_id,
+    colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d,%ld",machine_id,status_id,
 			     (cur_read_stat->machine_state),
 			     (cur_read_stat->num_of_processes),
 			     (cur_read_stat->load_factor),
 			     (cur_read_stat->packets_per_second),
 			     (cur_read_stat->discards_per_second),
                  (cur_read_stat->timestamp));
+                 update=0;
     }
     // mark as unread
     shared_memory.machine_stats[machine_id].read=0;
