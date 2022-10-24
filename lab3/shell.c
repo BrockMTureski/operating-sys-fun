@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#define MAX_ARGS .word 15
 
 //+
 // File:	shell.c
@@ -70,11 +71,12 @@ int main() {
             //printf("<%s>\n",commandBuffer);
 	}
 
+    int char args[MAX_ARGS][cmdLen];
 	// split command line into words.(Step 2)
-
+    int args=splitCommandLine(commandBuffer,args,MAX_ARGS);
 
 	// add a null to end of array (Step 2)
-
+    
 	// TODO
 
 	// debugging
