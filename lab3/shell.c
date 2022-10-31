@@ -210,12 +210,19 @@ struct cmdStruct{
 
 // prototypes for command handling functions
 // TODO: add prototype for each comamand function
+void exitFunc (char *args[], int nargs);
+void pwdFunc (char *args[], int nargs);
+void lsFunc (char *args[], int nargs);
+void cdFunc (char *args[], int nargs);
 
 // list commands and functions
 // must be terminated by {NULL, NULL} 
 // in a real shell, this would be a hashtable.
 struct cmdStruct commands[] = {
-   // TODO: add entry for each command
+   {"exit", exitFunc},
+   {"pwd", pwdFunc},
+   {"ls", lsFunc},
+   {"cd", cdFunc},
    { NULL, NULL}		// terminator
 };
 
@@ -244,4 +251,59 @@ int doInternalCommand(char * args[], int nargs){
 // TODO: a function for each command handling function
 // goes here. Also make sure a comment block prefaces
 // each of the command handling functions.
+void exitFunc (char *args[], int nargs){
+    exit(0);
+}
 
+void pwdFunc (char *args[], int nargs){
+    char * cwd = getcwd(NULL, 0);
+    printf("Current directory: %s\n", cwd);
+    free(cwd);
+}
+
+void lsFunc (char *args[], int nargs){
+    struct dirent ** namelist;
+    
+    int (*filter) (const struct dirent *d) = NULL;
+    if(nargs==1){
+        filter = checkFilter;
+    }else if(strcmp(args[1], "-a") == 0){
+        filter = NULL;
+    }
+    
+    int numEnts = scandir(".", &namelist, filter, NULL);
+    int i;
+    for( i=0; i<numEnts; i++){
+        printf("%s\n",namelist[i]->d_name);
+    }
+     
+}
+
+int checkFilter(const struct dirent *d){
+    if(d->d_name[0]=='.'){
+        return 0;
+    }else{
+        return 1;
+    }
+
+}
+
+void cdFunc (char *args[], int nargs){
+    struct passwd *pw=getpwuid(getuid());
+
+    if(pw==NULL){
+        printf("Invalid password input: NULL\n");
+        return;
+    }
+    
+    char* newDirName = NULL;
+    if(nargs == 1){
+        newDirName = pw->pw_dir;
+    }else{
+        newDirName = args[1];
+    }
+
+    if(chdir(newDirName)!=0){
+        printf("Directory does not exist\n");
+    }
+}
