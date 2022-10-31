@@ -8,7 +8,6 @@
 #include <ctype.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#define MAX_ARGS .word 15
 
 //+
 // File:	shell.c
@@ -54,6 +53,8 @@ int main() {
     // note the plus one, allows for an extra null
     char *args[MAXARGS+1];
 
+    int internal, program;
+
     // print prompt.. fflush is needed because
     // stdout is line buffered, and won't
     // write to terminal until newline
@@ -72,12 +73,12 @@ int main() {
 	}
 
 	// split command line into words.(Step 2)
-    int numArgs=splitCommandLine(commandBuffer,args,MAX_ARGS-1);
+    int nargs = splitCommandLine(commandBuffer, args, MAXARGS);
+	
 
 	// add a null to end of array (Step 2)
-        char *pnull='\0';
-        args[numArgs]=&pnull;
-	// TODO
+    args[nargs+1] = '\0';
+	
 
 	// debugging
 	//printf("%d\n", nargs);
@@ -88,14 +89,20 @@ int main() {
 	// element just past nargs
 	//printf("%d: %x\n",i, args[i]);
 
-        // TODO: check if 1 or more args (Step 3)
         
-        // TODO: if one or more args, call doInternalCommand  (Step 3)
+        if (nargs>1){
+            internal = doInternalCommand(args, nargs);
+        }
         
         // TODO: if doInternalCommand returns 0, call doProgram  (Step 4)
-        
+        if (internal == 0){
+            program = doProgram(args, nargs);
+        }
         // TODO: if doProgram returns 0, print error message (Step 3 & 4)
         // that the command was not found.
+        if(program == 0){
+            printf("Error, command was not found.\n");
+        }
 
 	// print prompt
 	printf("%%> ");
@@ -109,7 +116,8 @@ int main() {
 //+
 // Function:	skipChar
 //
-// Purpose:	TODO: finish description of function
+// Purpose:	Called by splitCommandLine to return pointers to the first
+//          character of a word following a space. 
 //
 // Parameters:
 //    charPtr	Pointer to string
@@ -134,18 +142,20 @@ char * skipChar(char * charPtr, char skip){
 //+
 // Funtion:	splitCommandLine
 //
-// Purpose:	TODO: give descritption of function
+// Purpose:	Fills array args[] with pointers to the beginning of words following
+//          a space. Calls skipChar to get pointers.
 //
 // Parameters:
-//	TODO: parametrs and purpose
+//	commandBuffer   pointer to the beginning of array 
+//  args[]          array of character pointers pointing to words in commandBuffer
+//  maxargs         maximum number of arguments allowed in args[] 
 //
 // Returns:	Number of arguments (< maxargs).
 //
 //-
 
-
 int splitCommandLine(char * commandBuffer, char* args[], int maxargs){
-    int f = 0;
+   int f = 0;
     int len = strlen(commandBuffer);
     for(int i = 0; i<len;i++){
         if(commandBuffer[i] == ' ' && f < maxargs){
