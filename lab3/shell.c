@@ -193,6 +193,7 @@ int doProgram(char * args[], int nargs){
   // find the executable
   // TODO: add body.
   // Note this is step 4, complete doInternalCommand first!!!
+  
 
   return 1;
 }
@@ -301,13 +302,15 @@ void pwdFunc (char *args[], int nargs){
 void lsFunc (char *args[], int nargs){
     struct dirent ** namelist;
     
-    int (*filter) (const struct dirent *d) = NULL;
+    int (*filter)(const struct dirent * d);
     if(nargs==1){
         filter = checkFilter;
-    }else if(strcmp(args[1], "-a") == 0){
-        filter = NULL;
     }
     
+    if(strcmp(args[1], "-a") == 0){
+        filter = NULL;
+    }
+   
     int numEnts = scandir(".", &namelist, filter, NULL);
     int i;
     for( i=0; i<numEnts; i++){
@@ -351,7 +354,7 @@ void cdFunc (char *args[], int nargs){
     struct passwd *pw=getpwuid(getuid());
 
     if(pw==NULL){
-        printf("Invalid password input: NULL\n");
+        printf("Invalid input: NULL\n");
         return;
     }
     
