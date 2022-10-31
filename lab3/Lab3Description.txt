@@ -1,0 +1,21 @@
+Our program works by first prompting then collecting a command to send 
+to the terminal from the user. The program then calls the splitCommandLine
+function which iterates through the user input and breaks up the string into 
+words by calling skip char on all spaces and returning the pointer to the 
+first char of each word into the argument array. finally a null is added to
+the end to indicate that there are no commands left. 
+Next the program checks to ensure there are sufficient arguments in the arg
+array, if there are doInternalCommand is called which goes through a list of
+commands and their respective function and checks if the string in args[0]
+which will be the command line function is equal to the names in the list,
+when it finds one thats equal its respective function is called with the argument
+tokens and number of args as parameters. 
+
+This lab employees the use of pointers which are not found in all languages, but
+are found in c and give you much greater control over memory, in this program 
+pointers are mainly used in the form of string handling during the tokenization 
+process of the command input. This tokenization takes place by placing a pointer
+to the first char of each individual word into the args string rather than the
+actual word itself, in doing this it saves the program from having to initialize 
+a 2d array and store the individual characters twice. Pointers are also used in
+cmdStruct to point to the correct function to handle the inputted command.
