@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include<unistd.h>
-#include<pwd.h>
+#include <unistd.h>
+#include <pwd.h>
 
 int main(int argc, char * argv[]){
     struct passwd *pw = getpwuid(getuid());

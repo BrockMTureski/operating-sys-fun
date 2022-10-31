@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#define MAX_ARGS .word 15
 
 //+
 // File:	shell.c
@@ -71,11 +72,11 @@ int main() {
 	}
 
 	// split command line into words.(Step 2)
-
-	// TODO
+    int numArgs=splitCommandLine(commandBuffer,args,MAX_ARGS-1);
 
 	// add a null to end of array (Step 2)
-
+        char *pnull='\0';
+        args[numArgs]=&pnull;
 	// TODO
 
 	// debugging
@@ -120,9 +121,14 @@ int main() {
 //-
 
 char * skipChar(char * charPtr, char skip){
-    // TODO: contents of function
-    // TODO: replace null with proper value
-    return NULL;
+    if(*charPtr==skip){
+        ++charPtr;
+        skipChar(charPtr,skip);
+    } else if(*charPtr!='\0'){
+    return &charPtr;
+    }else{
+        return NULL;
+    }
 }
 
 //+
@@ -137,11 +143,17 @@ char * skipChar(char * charPtr, char skip){
 //
 //-
 
+
 int splitCommandLine(char * commandBuffer, char* args[], int maxargs){
-   // TODO: Contents of function
-    
-   // TODO: reutrn proper value
-   return 0;
+    int f = 0;
+    int len = strlen(commandBuffer);
+    for(int i = 0; i<len;i++){
+        if(commandBuffer[i] == ' ' && f < maxargs){
+            args[f]=skipChar(commandBuffer,' ');
+            f++;
+        }
+    }
+   return f+1;
 }
 
 ////////////////////////////// External Program  (Note this is step 4, complete doeInternalCommand first!!) ///////////////////////////////////

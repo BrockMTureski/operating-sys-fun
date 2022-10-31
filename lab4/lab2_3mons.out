@@ -1,0 +1,349 @@
+[0;35mM [1666976719.369822] Monitor threads 3[0m
+[0;35mM [1666976719.369857] Printer delay (msec) 1800[0m
+[0;35m0 [1666976719.369923] thread 0, file name is machine_0.txt[0m
+[0;35m1 [1666976719.369956] thread 1, file name is machine_1.txt[0m
+[0;35m2 [1666976719.369957] thread 2, file name is machine_2.txt[0m
+[0;33mR [1666976719.369965] Reader Thread: 3 machines[0m
+[0;33mP [1666976719.369969] Printer Thread: delay 1800[0m
+[0;33m1 [1666976719.392023] Machine 1 started[0m
+[0;33m0 [1666976719.392036] Machine 0 started[0m
+[0;32m1 [1666976719.392058] Machine 1 Line 0: 1,9,0.900000,11,19[0m
+[0;32m1 [1666976719.392063] Enter Critical Section[0m
+[0;32m1 [1666976719.392064] Update Done[0m
+[0;32m1 [1666976719.392066] Exit Critical Section[0m
+[0;33m1 [1666976719.392069] Sleeping for 1020 msec[0m
+[0;32m0 [1666976719.392070] Machine 0 Line 0: 1,4,0.500000,16,9[0m
+[0;32m0 [1666976719.392075] Enter Critical Section[0m
+[0;32m0 [1666976719.392076] Update Done[0m
+[0;32m0 [1666976719.392078] Exit Critical Section[0m
+[0;33m0 [1666976719.392078] Sleeping for 900 msec[0m
+[0;33m2 [1666976719.392086] Machine 2 started[0m
+[0;32m2 [1666976719.392114] Machine 2 Line 0: 0,0,0.000000,0,0[0m
+[0;32m2 [1666976719.392118] Enter Critical Section[0m
+[0;32m2 [1666976719.392118] Update Done[0m
+[0;32m2 [1666976719.392120] Exit Critical Section[0m
+[0;33m2 [1666976719.392121] Sleeping for 1240 msec[0m
+[0;32m0 [1666976720.296917] Machine 0 Line 1: 1,3,0.200000,5,19[0m
+[0;32m0 [1666976720.296943] Enter Critical Section[0m
+[1;31m0 [1666976720.296945] Overwote status before it could be read[0m
+[0;32m0 [1666976720.296951] Exit Critical Section[0m
+[0;33m0 [1666976720.296953] Sleeping for 8000 msec[0m
+[0;33mR [1666976720.370259] Reader Thread loop start[0m
+[0;33mR [1666976720.370279] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976720.370281] ALERT: Machine 2 is down[0m
+[0;33mR [1666976720.370285] Reader Thread loop  accessing_stats lock released[0m
+[0;32m1 [1666976720.416369] Machine 1 Line 1: 1,1,0.100000,42,14[0m
+[0;32m1 [1666976720.416397] Enter Critical Section[0m
+[0;32m1 [1666976720.416397] Update Done[0m
+[0;32m1 [1666976720.416399] Exit Critical Section[0m
+[0;33m1 [1666976720.416400] Sleeping for 8000 msec[0m
+[0;32m2 [1666976720.636941] Machine 2 Line 1: 1,10,0.200000,39,17[0m
+[0;32m2 [1666976720.636951] Enter Critical Section[0m
+[0;32m2 [1666976720.636952] Update Done[0m
+[0;32m2 [1666976720.636954] Exit Critical Section[0m
+[0;33m2 [1666976720.636954] Sleeping for 8000 msec[0m
+[0;33mP [1666976721.173868] access_summary locked[0m
+[0;33mP [1666976721.173871] Printer Step[0m
+[1666976721] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  N |  -----------------     | ------------
+      1|  N |  -----------------     | ------------
+      2|  N |  -----------------     | ------------
+[0;33mP [1666976721.173875] access_summary released[0m
+[0;33mR [1666976721.323622] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976721.323624] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976721.323625] Reader Thread loop end[0m
+[0;33mR [1666976721.323626] Reader Thread loop start[0m
+[0;33mR [1666976721.323627] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976721.323628] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976722.253461] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976722.253465] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976722.253466] Reader Thread loop end[0m
+[0;33mR [1666976722.253466] Reader Thread loop start[0m
+[0;33mR [1666976722.253467] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976722.253468] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976722.976425] access_summary locked[0m
+[0;33mP [1666976722.976452] Printer Step[0m
+[1666976722] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      2 |   1666976720 
+      1|  Y |                      3 |   1666976720 
+      2|  Y |                      2 |   1666976720 
+[0;33mP [1666976722.976571] access_summary released[0m
+[0;33mR [1666976723.232151] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976723.232154] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976723.232155] Reader Thread loop end[0m
+[0;33mR [1666976723.232155] Reader Thread loop start[0m
+[0;33mR [1666976723.232157] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976723.232158] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976724.188921] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976724.188924] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976724.188925] Reader Thread loop end[0m
+[0;33mR [1666976724.188925] Reader Thread loop start[0m
+[0;33mR [1666976724.188927] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976724.188928] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976724.778277] access_summary locked[0m
+[0;33mP [1666976724.778306] Printer Step[0m
+[1666976724] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      4 |   1666976720 
+      1|  Y |                      5 |   1666976720 
+      2|  Y |                      4 |   1666976720 
+[0;33mP [1666976724.778310] access_summary released[0m
+[0;33mR [1666976725.134655] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976725.134657] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976725.134658] Reader Thread loop end[0m
+[0;33mR [1666976725.134658] Reader Thread loop start[0m
+[0;33mR [1666976725.134660] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976725.134661] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976726.056962] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976726.056965] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976726.056965] Reader Thread loop end[0m
+[0;33mR [1666976726.056966] Reader Thread loop start[0m
+[0;33mR [1666976726.056967] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976726.056968] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976726.582383] access_summary locked[0m
+[0;33mP [1666976726.582387] Printer Step[0m
+[1666976726] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      6 |   1666976720 
+      1|  Y |                      7 |   1666976720 
+      2|  Y |                      6 |   1666976720 
+[0;33mP [1666976726.582391] access_summary released[0m
+[0;33mR [1666976727.016355] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976727.016358] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976727.016358] Reader Thread loop end[0m
+[0;33mR [1666976727.016359] Reader Thread loop start[0m
+[0;33mR [1666976727.016360] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976727.016361] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976727.982716] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976727.982720] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976727.982721] Reader Thread loop end[0m
+[0;33mR [1666976727.982721] Reader Thread loop start[0m
+[0;33mR [1666976727.982722] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976727.982723] Reader Thread loop  accessing_stats lock released[0m
+[0;32m0 [1666976728.301360] Machine 0 Line 2: 0,0,0.000000,0,0[0m
+[0;32m0 [1666976728.301369] Enter Critical Section[0m
+[0;32m0 [1666976728.301369] Update Done[0m
+[0;32m0 [1666976728.301425] Exit Critical Section[0m
+[0;33m0 [1666976728.301426] Sleeping for 1460 msec[0m
+[0;33mP [1666976728.387356] access_summary locked[0m
+[0;33mP [1666976728.387358] Printer Step[0m
+[1666976728] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      8 |   1666976720 
+      1|  Y |                      9 |   1666976720 
+      2|  Y |                      8 |   1666976720 
+[0;33mP [1666976728.387363] access_summary released[0m
+[0;32m1 [1666976728.420653] Machine 1 Line 2: 0,0,0.000000,0,0[0m
+[0;32m1 [1666976728.420660] Enter Critical Section[0m
+[0;32m1 [1666976728.420661] Update Done[0m
+[0;32m1 [1666976728.420663] Exit Critical Section[0m
+[0;33m1 [1666976728.420663] Sleeping for 980 msec[0m
+[0;32m2 [1666976728.642177] Machine 2 Line 2: 0,0,0.000000,0,0[0m
+[0;32m2 [1666976728.642186] Enter Critical Section[0m
+[0;32m2 [1666976728.642187] Update Done[0m
+[0;32m2 [1666976728.642188] Exit Critical Section[0m
+[0;33m2 [1666976728.642189] Sleeping for 1280 msec[0m
+[0;33mR [1666976729.002238] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976729.002242] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976729.002243] Reader Thread loop end[0m
+[0;33mR [1666976729.002243] Reader Thread loop start[0m
+[0;33mR [1666976729.002244] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976729.002245] ALERT: Machine 0 is down[0m
+[1;31mR [1666976729.002245] ALERT: Machine 1 is down[0m
+[1;31mR [1666976729.002246] ALERT: Machine 2 is down[0m
+[0;33mR [1666976729.002247] Reader Thread loop  accessing_stats lock released[0m
+[0;32m1 [1666976729.401351] Machine 1 Line 3: 1,4,0.600000,48,10[0m
+[0;32m1 [1666976729.401360] Enter Critical Section[0m
+[0;32m1 [1666976729.401360] Update Done[0m
+[0;32m1 [1666976729.401362] Exit Critical Section[0m
+[0;33m1 [1666976729.401363] Sleeping for 1120 msec[0m
+[0;32m0 [1666976729.766158] Machine 0 Line 3: 1,1,0.200000,35,17[0m
+[0;32m0 [1666976729.766165] Enter Critical Section[0m
+[0;32m0 [1666976729.766166] Update Done[0m
+[0;32m0 [1666976729.766167] Exit Critical Section[0m
+[0;33m0 [1666976729.766168] Sleeping for 940 msec[0m
+[0;32m2 [1666976729.927258] Machine 2 Line 3: 1,6,0.700000,28,0[0m
+[0;32m2 [1666976729.927284] Enter Critical Section[0m
+[0;32m2 [1666976729.927285] Update Done[0m
+[0;32m2 [1666976729.927286] Exit Critical Section[0m
+[0;33m2 [1666976729.927287] Sleeping for 1960 msec[0m
+[0;33mR [1666976729.937255] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976729.937257] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976729.937258] Reader Thread loop end[0m
+[0;33mR [1666976729.937259] Reader Thread loop start[0m
+[0;33mR [1666976729.937259] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976729.937260] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976730.192261] access_summary locked[0m
+[0;33mP [1666976730.192263] Printer Step[0m
+[1666976730] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  N |  -----------------     |   1666976728 
+      1|  N |  -----------------     |   1666976728 
+      2|  N |  -----------------     |   1666976728 
+[0;33mP [1666976730.192267] access_summary released[0m
+[0;32m1 [1666976730.521649] Machine 1 Line 4: 0,0,0.000000,0,0[0m
+[0;32m1 [1666976730.521655] Enter Critical Section[0m
+[0;32m1 [1666976730.521655] Update Done[0m
+[0;32m1 [1666976730.521657] Exit Critical Section[0m
+[0;33m1 [1666976730.521657] Sleeping for 8000 msec[0m
+[0;32m0 [1666976730.708150] Machine 0 Line 4: 1,3,0.600000,10,10[0m
+[0;32m0 [1666976730.708160] Enter Critical Section[0m
+[0;32m0 [1666976730.708160] Update Done[0m
+[0;32m0 [1666976730.708196] Exit Critical Section[0m
+[0;33m0 [1666976730.708197] Sleeping for 8000 msec[0m
+[0;33mR [1666976730.904035] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976730.904038] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976730.904039] Reader Thread loop end[0m
+[0;33mR [1666976730.904039] Reader Thread loop start[0m
+[0;33mR [1666976730.904041] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976730.904041] ALERT: Machine 1 is down[0m
+[0;33mR [1666976730.904042] Reader Thread loop  accessing_stats lock released[0m
+[0;32m2 [1666976731.892402] Machine 2 Line 4: 1,1,0.200000,45,13[0m
+[0;32m2 [1666976731.892410] Enter Critical Section[0m
+[0;32m2 [1666976731.892411] Update Done[0m
+[0;32m2 [1666976731.892413] Exit Critical Section[0m
+[0;33m2 [1666976731.892414] Sleeping for 8000 msec[0m
+[0;33mR [1666976731.957391] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976731.957395] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976731.957396] Reader Thread loop end[0m
+[0;33mR [1666976731.957396] Reader Thread loop start[0m
+[0;33mR [1666976731.957398] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976731.957399] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976731.995379] access_summary locked[0m
+[0;33mP [1666976731.995382] Printer Step[0m
+[1666976731] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      2 |   1666976730 
+      1|  N |  -----------------     |   1666976730 
+      2|  Y |                      2 |   1666976729 
+[0;33mP [1666976731.995387] access_summary released[0m
+[0;33mR [1666976733.077937] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976733.077940] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976733.077940] Reader Thread loop end[0m
+[0;33mR [1666976733.077941] Reader Thread loop start[0m
+[0;33mR [1666976733.077942] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976733.077943] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976733.796468] access_summary locked[0m
+[0;33mP [1666976733.796472] Printer Step[0m
+[1666976733] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      4 |   1666976730 
+      1|  N |  -----------------     |   1666976730 
+      2|  Y |                      4 |   1666976731 
+[0;33mP [1666976733.796476] access_summary released[0m
+[0;33mR [1666976734.192739] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976734.192742] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976734.192743] Reader Thread loop end[0m
+[0;33mR [1666976734.192743] Reader Thread loop start[0m
+[0;33mR [1666976734.192745] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976734.192748] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976735.233770] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976735.233773] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976735.233773] Reader Thread loop end[0m
+[0;33mR [1666976735.233774] Reader Thread loop start[0m
+[0;33mR [1666976735.233775] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976735.233776] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976735.598666] access_summary locked[0m
+[0;33mP [1666976735.598670] Printer Step[0m
+[1666976735] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      6 |   1666976730 
+      1|  N |  -----------------     |   1666976730 
+      2|  Y |                      6 |   1666976731 
+[0;33mP [1666976735.598674] access_summary released[0m
+[0;33mR [1666976736.304837] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976736.304842] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976736.304882] Reader Thread loop end[0m
+[0;33mR [1666976736.304883] Reader Thread loop start[0m
+[0;33mR [1666976736.304884] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976736.304885] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976737.391864] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976737.391867] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976737.391868] Reader Thread loop end[0m
+[0;33mR [1666976737.391868] Reader Thread loop start[0m
+[0;33mR [1666976737.391870] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976737.391871] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976737.403483] access_summary locked[0m
+[0;33mP [1666976737.403485] Printer Step[0m
+[1666976737] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                      8 |   1666976730 
+      1|  N |  -----------------     |   1666976730 
+      2|  Y |                      8 |   1666976731 
+[0;33mP [1666976737.403489] access_summary released[0m
+[0;33mR [1666976738.420667] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976738.420670] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976738.420670] Reader Thread loop end[0m
+[0;33mR [1666976738.420671] Reader Thread loop start[0m
+[0;33mR [1666976738.420672] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976738.420673] Reader Thread loop  accessing_stats lock released[0m
+[0;32m1 [1666976738.526564] Machine 1 Line 5: 1,5,0.400000,6,9[0m
+[0;32m1 [1666976738.526571] Enter Critical Section[0m
+[0;32m1 [1666976738.526572] Update Done[0m
+[0;32m1 [1666976738.526574] Exit Critical Section[0m
+[0;33m1 [1666976738.526574] Sleeping for 1920 msec[0m
+[0;32m0 [1666976738.712483] Machine 0 Line 5: 0,0,0.000000,0,0[0m
+[0;32m0 [1666976738.712492] Enter Critical Section[0m
+[0;32m0 [1666976738.712492] Update Done[0m
+[0;32m0 [1666976738.712494] Exit Critical Section[0m
+[0;33m0 [1666976738.712495] Sleeping for 780 msec[0m
+[0;33mP [1666976739.205491] access_summary locked[0m
+[0;33mP [1666976739.205494] Printer Step[0m
+[1666976739] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  Y |                     10 |   1666976730 
+      1|  N |  -----------------     |   1666976730 
+      2|  Y |                     10 |   1666976731 
+[0;33mP [1666976739.205520] access_summary released[0m
+[0;33mR [1666976739.470011] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976739.470014] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976739.470015] Reader Thread loop end[0m
+[0;33mR [1666976739.470015] Reader Thread loop start[0m
+[0;33mR [1666976739.470017] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976739.470017] ALERT: Machine 0 is down[0m
+[0;33mR [1666976739.470018] Reader Thread loop  accessing_stats lock released[0m
+[0;32m2 [1666976739.896749] Machine 2 Line 5: 1,1,0.700000,2,19[0m
+[0;32m2 [1666976739.896778] Enter Critical Section[0m
+[0;32m2 [1666976739.896778] Update Done[0m
+[0;32m2 [1666976739.896780] Exit Critical Section[0m
+[0;33m2 [1666976739.896781] Sleeping for 1200 msec[0m
+[0;33mR [1666976740.430561] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976740.430565] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976740.430566] Reader Thread loop end[0m
+[0;33mR [1666976740.430566] Reader Thread loop start[0m
+[0;33mR [1666976740.430568] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976740.430569] Reader Thread loop  accessing_stats lock released[0m
+[0;33mP [1666976741.009263] access_summary locked[0m
+[0;33mP [1666976741.009267] Printer Step[0m
+[1666976741] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  N |  -----------------     |   1666976738 
+      1|  Y |                      3 |   1666976738 
+      2|  Y |                     12 |   1666976731 
+[0;33mP [1666976741.009304] access_summary released[0m
+[0;33mR [1666976741.431126] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976741.431129] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976741.431129] Reader Thread loop end[0m
+[0;33mP [1666976742.814131] access_summary locked[0m
+[0;33mP [1666976742.814135] Printer Step[0m
+[1666976742] SUMMARY INFORMATION
+MACHINE | UP | UPTIME                 | LAST UPDATE  
+-----------------------------------------------------
+      0|  N |  -----------------     |   1666976738 
+      1|  Y |                      4 |   1666976738 
+      2|  Y |                     13 |   1666976739 
+[0;33mP [1666976742.814140] access_summary released[0m

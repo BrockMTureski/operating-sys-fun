@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#$1 is the name of the file
+
+# check that the number of arguments is 1 (Step 1)
+
+# check that the file exists (Step 1)
+
+# extract all of the Reader Messages (R) (Step 1)
+echo "Extrating Reader Messages"
+
+# add time range to end of file. (Step 3)
+
+# extract all of the Printer Messages (P)  (Step 1)
+echo "Extrating Summary Printer Messages"
+
+# add time range to end of file. (Step 3)
+
+
+#find the number of machines (Step 2)
+
+
+# extract each machine messages (Step 2)
