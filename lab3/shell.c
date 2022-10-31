@@ -248,19 +248,48 @@ int doInternalCommand(char * args[], int nargs){
 // comand Handling Functions //
 ///////////////////////////////
 
-// TODO: a function for each command handling function
-// goes here. Also make sure a comment block prefaces
-// each of the command handling functions.
+
+//+
+// Function:	exitFunc
+//
+// Purpose:	Exit the shell with exit code of 0
+//
+// Parameters:
+//	TODO: add parameter names and descriptions
+//
+// Returns:	void
+//-
 void exitFunc (char *args[], int nargs){
     exit(0);
 }
 
+//+
+// Function:	pwdFunc
+//
+// Purpose:	Print the current working directory 
+//
+// Parameters:
+//	TODO: add parameter names and descriptions
+//
+// Returns:	void
+//-
 void pwdFunc (char *args[], int nargs){
     char * cwd = getcwd(NULL, 0);
     printf("Current directory: %s\n", cwd);
     free(cwd);
 }
 
+//+
+// Function:	lsFunc
+//
+// Purpose:	List the contents of the current directory. Hidden files 
+//          are not listed. Parameter "-a" lists all files
+//
+// Parameters:
+//	TODO: add parameter names and descriptions
+//
+// Returns: void	
+//-
 void lsFunc (char *args[], int nargs){
     struct dirent ** namelist;
     
@@ -279,6 +308,18 @@ void lsFunc (char *args[], int nargs){
      
 }
 
+//+
+// Function:	checkFilter
+//
+// Purpose:	Exit the shell with exit code of 0
+//
+// Parameters:
+//	TODO: add parameter names and descriptions
+//
+// Returns: int	
+//		1 = not a hidden file
+//		0 = hidden file
+//-
 int checkFilter(const struct dirent *d){
     if(d->d_name[0]=='.'){
         return 0;
@@ -288,6 +329,16 @@ int checkFilter(const struct dirent *d){
 
 }
 
+//+
+// Function:	cdFunc
+//
+// Purpose:	Change the current directory to the one given by parameter.
+//
+// Parameters:
+//	TODO: add parameter names and descriptions
+//
+// Returns: void	
+//-
 void cdFunc (char *args[], int nargs){
     struct passwd *pw=getpwuid(getuid());
 
