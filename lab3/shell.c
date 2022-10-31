@@ -240,7 +240,15 @@ struct cmdStruct commands[] = {
 //-
 
 int doInternalCommand(char * args[], int nargs){
-    // TODO: function contents (step 3)
+    
+    int i;
+    while (commands[i].cmdName != NULL){
+        if((strcmp(args[0], commands[i].cmdName))==0){
+            commands[i].cmdFunc(args, nargs);
+            return 1;
+        }
+        i++;
+    }
     return 0;
 }
 
