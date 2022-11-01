@@ -1,0 +1,7 @@
+Script started on 2022-10-31 20:54:29-04:00 [TERM="xterm-256color" TTY="/dev/pts/9" COLUMNS="77" LINES="21"]
+]0;19egf@elec377-Mon-9: ~/elec377-Mon-9/lab3[01;32m19egf@elec377-Mon-9[00m:[01;34m~/elec377-Mon-9/lab3[00m$ [K]0;19egf@elec377-Mon-9: ~/elec377-Mon-9/lab3[01;32m19egf@elec377-Mon-9[00m:[01;34m~/elec377-Mon-9/lab3[00m$ pwd
+/home/19egf/elec377-Mon-9/lab3
+]0;19egf@elec377-Mon-9: ~/elec377-Mon-9/lab3[01;32m19egf@elec377-Mon-9[00m:[01;34m~/elec377-Mon-9/lab3[00m$ exit
+exit
+
+Script done on 2022-10-31 20:56:16-04:00 [COMMAND_EXIT_CODE="0"]

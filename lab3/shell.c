@@ -129,14 +129,14 @@ int main() {
 //-
 
 char * skipChar(char * charPtr, char skip){
-    if(*charPtr==skip){
-        ++charPtr;
-        skipChar(charPtr,skip);
-    } else if(*charPtr!='\0'){
-    return &charPtr;
-    }else{
-        return NULL;
+    if (skip == '\0'){
+        return charPtr;
     }
+    while(*charPtr == skip){
+        charPtr++;
+    }
+
+    return charPtr;
 }
 
 //+
@@ -179,7 +179,7 @@ char * path[] = {
 //+
 // Funtion:	doProgram
 //
-// Purpose:	TODO: add description of funciton
+// Purpose:	
 //
 // Parameters:
 //	TODO: add paramters and description
@@ -198,7 +198,7 @@ int doProgram(char * args[], int nargs){
   int commandLength = 0;
   char *cmd_path = NULL;
    
-  int length = strlen(path);
+  int length = strlen(*path);
   for(i=0; i<length; i++){
     
     pathElement = strlen(path[i]);
@@ -233,7 +233,7 @@ int doProgram(char * args[], int nargs){
       perror("Child not created");
   }
   if(outFork == 0){
-      execv(&cmd_path, args);
+      execv(cmd_path, args);
   }
 
   free(cmd_path);
@@ -258,7 +258,8 @@ struct cmdStruct{
 void exitFunc (char *args[], int nargs);
 void pwdFunc (char *args[], int nargs);
 void lsFunc (char *args[], int nargs);
-int cdFunc (char *args[], int nargs);
+void cdFunc (char *args[], int nargs);
+int checkFilter(const struct dirent *d);
 
 // list commands and functions
 // must be terminated by {NULL, NULL} 
@@ -345,15 +346,17 @@ void pwdFunc (char *args[], int nargs){
 //-
 void lsFunc (char *args[], int nargs){
     struct dirent ** namelist;
-    int (*filter)(const struct dirent * d) = NULL; 
-    int numEnts = scandir(".", &namelist, filter, NULL);
+    int (*filter)(const struct dirent * d); 
+    int numEnts = scandir(".", &namelist, NULL, NULL);
+    int numPrinted=0;
+
 
     if(nargs == 1){
-        filter = checkFilter;
         int numEnts = scandir(".", &namelist, filter, NULL);
-        for(int i=0; i<numEnts; i++){
-            if(checkFilter(namelist[i])== 1){
-                printf("%s\n", namelist[i]->d_name);
+        while(numPrinted!=numEnts){
+            if(checkFilter(namelist[numPrinted])== 1){
+                printf("%s\n", namelist[numPrinted]->d_name);
+                numPrinted++;
             }
         }
 
@@ -366,7 +369,7 @@ void lsFunc (char *args[], int nargs){
                 printf("%s\n",namelist[i]->d_name);
             }
         }else{
-            fprintf("Error, argument \'-a\' not present.", NULL);
+            fprintf(stderr, "Error, argument \'-a\' not present.");
         }
     }
     return; 
@@ -401,24 +404,22 @@ int checkFilter(const struct dirent *d){
 // Parameters:
 //	TODO: add parameter names and descriptions
 //
-// Returns: void	
+// Returns: void
 //-
-int cdFunc (char *args[], int nargs){
+void cdFunc (char *args[], int nargs){
     struct passwd *pw=getpwuid(getuid());
-
+   
     if(pw==NULL){
-        fprintf("Invalid input: NULL\n", NULL);
-        return 0;
+        fprintf(stderr, "Invalid input: NULL\n");  
     }
-    
-    char* newDirName = NULL;
+
+    char* newDirName = pw->pw_dir;
     if(nargs == 1){
-        chdir(pw->pw_dir);
-    }else{
-         if(chdir(newDirName)!=0){
-            printf("Directory does not exist\n");
-            return -1;
-        }
-        return 0;
-    }     
+        chdir(newDirName);
+    }
+
+    if(chdir(newDirName)!=0){
+        fprintf(stderr, "Directory does not exist\n");
+    }
+             
 }
