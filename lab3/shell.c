@@ -62,14 +62,14 @@ int main() {
     fflush(stdout);
 
     while(fgets(commandBuffer,CMD_BUFFSIZE,stdin) != NULL){
-        //printf("%s",commandBuffer);
+        printf("%s",commandBuffer);
 
 	// remove newline at end of buffer
 	int cmdLen = strlen(commandBuffer);
 	if (commandBuffer[cmdLen-1] == '\n'){
 	    commandBuffer[cmdLen-1] = '\0';
 	    cmdLen--;
-            //printf("<%s>\n",commandBuffer);
+            printf("<%s>\n",commandBuffer);
 	}
 
 	// split command line into words.(Step 2)
@@ -81,7 +81,7 @@ int main() {
 	
 
 	// debugging
-	//printf("%d\n", nargs);
+	printf("%d\n", nargs);
 	//int i;
 	//for (i = 0; i < nargs; i++){
 	//   printf("%d: %s\n",i,args[i]);
