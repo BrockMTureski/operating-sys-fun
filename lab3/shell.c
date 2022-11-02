@@ -62,14 +62,14 @@ int main() {
     fflush(stdout);
 
     while(fgets(commandBuffer,CMD_BUFFSIZE,stdin) != NULL){
-        printf("%s",commandBuffer);
+        //printf("%s",commandBuffer);
 
 	// remove newline at end of buffer
 	int cmdLen = strlen(commandBuffer);
 	if (commandBuffer[cmdLen-1] == '\n'){
 	    commandBuffer[cmdLen-1] = '\0';
 	    cmdLen--;
-            printf("<%s>\n",commandBuffer);
+            //printf("<%s>\n",commandBuffer);
 	}
 
 	// split command line into words.(Step 2)
@@ -81,13 +81,13 @@ int main() {
 	
 
 	// debugging
-	printf("%d\n", nargs);
+	//printf("%d\n", nargs);
 	int i;
 	for (i = 0; i < nargs; i++){
-	   printf("%d: %s\n",i,args[i]);
+	   //printf("%d: %s\n",i,args[i]);
 	}
 	 //element just past nargs
-	printf("%d: %x\n",i, args[i]);
+	//printf("%d: %x\n",i, args[i]);
 
         
         if (nargs>1){
@@ -160,6 +160,7 @@ int splitCommandLine(char * commandBuffer, char* args[], int maxargs){
     for(int i = 0; i<len;i++){
         if((commandBuffer[i] == ' ' || i==0) && (f < maxargs)){
             args[f]=skipChar(commandBuffer+i,' ');
+            if(commandBuffer[i]==' ') commandBuffer[i]='\0';
             f++;
         }
     }
@@ -287,8 +288,9 @@ struct cmdStruct commands[] = {
 
 int doInternalCommand(char * args[], int nargs){
     
-    int i;
+    int i=0;
     while (commands[i].cmdName != NULL){
+        //printf("%x : %s",args[0],commands[i].cmdName);
         if((strcmp(args[0], commands[i].cmdName))==0){
             commands[i].cmdFunc(args, nargs);
             return 1;
@@ -349,29 +351,25 @@ void lsFunc (char *args[], int nargs){
     int (*filter)(const struct dirent * d); 
     int numEnts = scandir(".", &namelist, NULL, NULL);
     int numPrinted=0;
+    
 
-
-    if(nargs == 1){
-        int numEnts = scandir(".", &namelist, filter, NULL);
-        while(numPrinted!=numEnts){
-            if(checkFilter(namelist[numPrinted])== 1){
-                printf("%s\n", namelist[numPrinted]->d_name);
-                numPrinted++;
+    if(args[1]!="-a"){
+        for(int i=0;i<numEnts;i++){
+            if(namelist[i]->d_name[0]!='.'){
+        printf("%s\n",namelist[i]->d_name);
             }
         }
-
     }
 
-    if(nargs == 2){
+        if(args[1]!=NULL){
          if(strcmp(args[1], "-a") == 0){
-            int numEnts = scandir(".", &namelist, NULL, NULL);
-            for(int i=0; i<numEnts; i++){
-                printf("%s\n",namelist[i]->d_name);
-            }
+            for(int i=0;i<numEnts;i++){
+                printf("%s\n",namelist[i]->d_name); 
+        }
         }else{
             fprintf(stderr, "Error, argument \'-a\' not present.");
         }
-    }
+        }
     return; 
 }
 
@@ -407,6 +405,7 @@ int checkFilter(const struct dirent *d){
 // Returns: void
 //-
 void cdFunc (char *args[], int nargs){
+    
     struct passwd *pw=getpwuid(getuid());
    
     if(pw==NULL){
@@ -414,6 +413,7 @@ void cdFunc (char *args[], int nargs){
     }
 
     char* newDirName = pw->pw_dir;
+    strcat(newDirName,args[1]);
     if(nargs == 1){
         chdir(newDirName);
     }
