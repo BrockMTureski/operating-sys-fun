@@ -82,10 +82,10 @@ int main() {
 
 	// debugging
 	//printf("%d\n", nargs);
-	int i;
-	for (i = 0; i < nargs; i++){
+	//int i;
+	//for (i = 0; i < nargs; i++){
 	   //printf("%d: %s\n",i,args[i]);
-	}
+	//}
 	 //element just past nargs
 	//printf("%d: %x\n",i, args[i]);
 
@@ -183,7 +183,8 @@ char * path[] = {
 // Purpose:	
 //
 // Parameters:
-//	TODO: add paramters and description
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns	int
 //		1 = found and executed the file
@@ -276,10 +277,11 @@ struct cmdStruct commands[] = {
 //+
 // Function:	doInternalCommand
 //
-// Purpose:	TODO: add description
-//
+// Purpose:	function that takes in tokenized
+//          arguments and decides which function to call
 // Parameters:
-//	TODO: add parameter names and descriptions
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns	int
 //		1 = args[0] is an internal command
@@ -311,7 +313,8 @@ int doInternalCommand(char * args[], int nargs){
 // Purpose:	Exit the shell with exit code of 0
 //
 // Parameters:
-//	TODO: add parameter names and descriptions
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns:	void
 //-
@@ -325,7 +328,8 @@ void exitFunc (char *args[], int nargs){
 // Purpose:	Print the current working directory 
 //
 // Parameters:
-//	TODO: add parameter names and descriptions
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns:	void
 //-
@@ -342,7 +346,8 @@ void pwdFunc (char *args[], int nargs){
 //          are not listed. Parameter "-a" lists all files
 //
 // Parameters:
-//	TODO: add parameter names and descriptions
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns: void	
 //-
@@ -353,7 +358,7 @@ void lsFunc (char *args[], int nargs){
     int numPrinted=0;
     
 
-    if(args[1]!="-a"){
+    if(args[1]==NULL){
         for(int i=0;i<numEnts;i++){
             if(namelist[i]->d_name[0]!='.'){
         printf("%s\n",namelist[i]->d_name);
@@ -379,7 +384,7 @@ void lsFunc (char *args[], int nargs){
 // Purpose:	Exit the shell with exit code of 0
 //
 // Parameters:
-//	TODO: add parameter names and descriptions
+//	d- takes in pointer to dirent struct
 //
 // Returns: int	
 //		1 = not a hidden file
@@ -400,7 +405,8 @@ int checkFilter(const struct dirent *d){
 // Purpose:	Change the current directory to the one given by parameter.
 //
 // Parameters:
-//	TODO: add parameter names and descriptions
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns: void
 //-
@@ -413,7 +419,12 @@ void cdFunc (char *args[], int nargs){
     }
 
     char* newDirName = pw->pw_dir;
+    if(args[1][0]=='~'){
+        args[1]=args[1]+1;
     strcat(newDirName,args[1]);
+    }else{
+        newDirName=args[1];
+    }
     if(nargs == 1){
         chdir(newDirName);
     }

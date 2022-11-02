@@ -1,0 +1,15 @@
+Script started on 2022-11-02 00:25:03-04:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="43" LINES="6"]
+]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ exit[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ ./shell
+%> ls    cd ~/elec377-Mon-9
+cd ~/elec377-Mon-9
+0: cd
+1: ~/elec377-Mon-9
+2: (null)
+%> exit
+exit
+0: exit
+1: (null)
+]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ e xit
+exit
+
+Script done on 2022-11-02 00:25:47-04:00 [COMMAND_EXIT_CODE="0"]

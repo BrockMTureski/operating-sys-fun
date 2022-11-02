@@ -1,7 +1,33 @@
-Script started on 2022-10-31 20:54:29-04:00 [TERM="xterm-256color" TTY="/dev/pts/9" COLUMNS="77" LINES="21"]
-]0;19egf@elec377-Mon-9: ~/elec377-Mon-9/lab3[01;32m19egf@elec377-Mon-9[00m:[01;34m~/elec377-Mon-9/lab3[00m$ [K]0;19egf@elec377-Mon-9: ~/elec377-Mon-9/lab3[01;32m19egf@elec377-Mon-9[00m:[01;34m~/elec377-Mon-9/lab3[00m$ pwd
-/home/19egf/elec377-Mon-9/lab3
-]0;19egf@elec377-Mon-9: ~/elec377-Mon-9/lab3[01;32m19egf@elec377-Mon-9[00m:[01;34m~/elec377-Mon-9/lab3[00m$ exit
+Script started on 2022-11-02 00:06:21-04:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="43" LINES="6"]
+]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ exit[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ ./shell[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ gcc -o shell shell.c[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ ./shell[K
+%> pwd
+Current directory: /home/student/elec377-Mon-9/lab3
+%> ls
+hello
+a.out
+shell
+shell.c
+Lab3Description.txt
+Makefile
+hello.c
+test1.txt
+%> ls -a
+hello
+a.out
+shell
+shell.c
+Lab3Description.txt
+..
+Makefile
+.
+hello.c
+test1.txt
+.vscode
+%> cd /elec377-Mon-9
+%> pwd
+Current directory: /home/student/elec377-Mon-9
+%> exit
+]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ e xit
 exit
 
-Script done on 2022-10-31 20:56:16-04:00 [COMMAND_EXIT_CODE="0"]
+Script done on 2022-11-02 00:07:16-04:00 [COMMAND_EXIT_CODE="0"]
