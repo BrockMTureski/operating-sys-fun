@@ -158,8 +158,8 @@ int splitCommandLine(char * commandBuffer, char* args[], int maxargs){
    int f = 0;
     int len = strlen(commandBuffer);
     for(int i = 0; i<len;i++){
-        if(commandBuffer[i] == ' ' && f < maxargs){
-            args[f]=skipChar(commandBuffer[i],' ');
+        if((commandBuffer[i] == ' ' || i==0) && (f < maxargs)){
+            args[f]=skipChar(commandBuffer+i,' ');
             f++;
         }
     }
