@@ -77,7 +77,7 @@ int main() {
 	
 
 	// add a null to end of array (Step 2)
-    args[nargs] = '\0';
+    args[nargs-1] = '\0';
 	
 
 	// debugging
