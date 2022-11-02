@@ -82,12 +82,12 @@ int main() {
 
 	// debugging
 	printf("%d\n", nargs);
-	//int i;
-	//for (i = 0; i < nargs; i++){
-	//   printf("%d: %s\n",i,args[i]);
-	//}
-	// element just past nargs
-	//printf("%d: %x\n",i, args[i]);
+	int i;
+	for (i = 0; i < nargs; i++){
+	   printf("%d: %s\n",i,args[i]);
+	}
+	 //element just past nargs
+	printf("%d: %x\n",i, args[i]);
 
         
         if (nargs>1){
