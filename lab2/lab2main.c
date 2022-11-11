@@ -243,7 +243,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
     
     // report if overwritten or normal case (Stage 2)
     if(updated==1){
-    colourMsg(machId[machine_id],CONSOLE_CYAN,"Machine %d updated.",)
+    colourMsg(machId[machine_id],CONSOLE_CYAN,"Machine %d updated.",machine_id);
     colourMsg(machId[machine_id] ,CONSOLE_GREEN,"Machine %d Line %d: %d,%d,%f,%d,%d,%ld",machine_id,status_id,
 			     (cur_read_stat->machine_state),
 			     (cur_read_stat->num_of_processes),
@@ -251,7 +251,7 @@ void monitor_update_status_entry(int machine_id, int status_id, struct status * 
 			     (cur_read_stat->packets_per_second),
 			     (cur_read_stat->discards_per_second),
                  (cur_read_stat->timestamp));
-                 update=0;
+                 updated=0;
     }
     // mark as unread
     shared_memory.machine_stats[machine_id].read=0;
