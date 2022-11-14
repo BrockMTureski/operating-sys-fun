@@ -5,6 +5,7 @@
 # check that the number of arguments is 1 (Step 1)
 if [$# -ne 1]; then
     echo "Number of arguments is incorrect. Please provide one argument"
+fi
 
 # check that the file exists (Step 1)
 if [[ test -f $1 ]]; then
@@ -15,15 +16,15 @@ fi
 
 # extract all of the Reader Messages (R) (Step 1)
 echo "Extrating Reader Messages"
-grep -E '^esc\[(0|1);[0-9]{2}mR' /home/19egf/elec377-Mon-9/lab4/lab2_3mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_3mons.Reader.out
-grep -E '^esc\[(0|1);[0-9]{2}mR' /home/19egf/elec377-Mon-9/lab4/lab2_4mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_4mons.Reader.out
+grep -Er '^esc\[(0|1);[0-9]{2}mR$esc\[0m' /home/19egf/elec377-Mon-9/lab4/lab2_3mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_3mons.Reader.out
+grep -Er '^esc\[(0|1);[0-9]{2}mR$esc\[0m' /home/19egf/elec377-Mon-9/lab4/lab2_4mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_4mons.Reader.out
 
 # add time range to end of file. (Step 3)
 
 # extract all of the Printer Messages (P)  (Step 1)
 echo "Extrating Summary Printer Messages"
-grep -E '^esc\[(0|1);[0-9]{2}mP' /home/19egf/elec377-Mon-9/lab4/lab2_3mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_3mons.Printer.out
-grep -E '^esc\[(0|1);[0-9]{2}mP' /home/19egf/elec377-Mon-9/lab4/lab2_4mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_4mons.Printer.out
+grep -Er '^esc\[(0|1);[0-9]{2}mP$esc\[0m' /home/19egf/elec377-Mon-9/lab4/lab2_3mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_3mons.Printer.out
+grep -Er '^esc\[(0|1);[0-9]{2}mP$esc\[0m' /home/19egf/elec377-Mon-9/lab4/lab2_4mons.out > /home/19egf/elec377-Mon-9/lab4/lab2_4mons.Printer.out
 
 # add time range to end of file. (Step 3)
 
