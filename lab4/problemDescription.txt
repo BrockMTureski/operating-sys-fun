@@ -1,0 +1,12 @@
+The bash script begins by ensuriung that the number of arguments passed
+is 1 and the file passed as the argument exists. The script exits if either
+check fails. The script then goes and grabs the reader thread output 
+messages by filtering for the thread logs that contain R and prints them
+to to a seperate file using grep. The script then subtracts the time taken
+between the first log and the last and adds the thread duration to the end
+of the file. The script continues on to do the exact same thing as with
+the reader thread but this time collects printer thread outputs by filtering
+for P thread using grep. Finally the script then does the same thing for each
+of the machines by going through and storing all of the different machine numbers
+found in the thread logs and then using a for loop and filtering the individual
+machines logs into their own file.
