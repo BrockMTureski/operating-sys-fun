@@ -1,0 +1,33 @@
+[0;35m0 [1667150508.423047] thread 0, file name is machine_0.txt[0m
+[0;33m0 [1667150508.423197] Machine 0 started[0m
+[0;32m0 [1667150508.423302] Machine 0 Line 0: 1,4,0.500000,16,9[0m
+[0;32m0 [1667150508.423318] Enter Critical Section[0m
+[0;32m0 [1667150508.423319] Update Done[0m
+[0;32m0 [1667150508.423335] Exit Critical Section[0m
+[0;33m0 [1667150508.423336] Sleeping for 900 msec[0m
+[0;32m0 [1667150509.323766] Machine 0 Line 1: 1,3,0.200000,5,19[0m
+[0;32m0 [1667150509.323786] Enter Critical Section[0m
+[1;31m0 [1667150509.323787] Overwote status before it could be read[0m
+[0;32m0 [1667150509.323791] Exit Critical Section[0m
+[0;33m0 [1667150509.323804] Sleeping for 8000 msec[0m
+[0;32m0 [1667150517.327182] Machine 0 Line 2: 0,0,0.000000,0,0[0m
+[0;32m0 [1667150517.327189] Enter Critical Section[0m
+[0;32m0 [1667150517.327190] Update Done[0m
+[0;32m0 [1667150517.327192] Exit Critical Section[0m
+[0;33m0 [1667150517.327193] Sleeping for 1460 msec[0m
+[0;32m0 [1667150518.787808] Machine 0 Line 3: 1,1,0.200000,35,17[0m
+[0;32m0 [1667150518.787817] Enter Critical Section[0m
+[0;32m0 [1667150518.787818] Update Done[0m
+[0;32m0 [1667150518.787820] Exit Critical Section[0m
+[0;33m0 [1667150518.787821] Sleeping for 940 msec[0m
+[0;32m0 [1667150519.732621] Machine 0 Line 4: 1,3,0.600000,10,10[0m
+[0;32m0 [1667150519.732630] Enter Critical Section[0m
+[0;32m0 [1667150519.732630] Update Done[0m
+[0;32m0 [1667150519.732632] Exit Critical Section[0m
+[0;33m0 [1667150519.732633] Sleeping for 8000 msec[0m
+[0;32m0 [1667150527.733189] Machine 0 Line 5: 0,0,0.000000,0,0[0m
+[0;32m0 [1667150527.733199] Enter Critical Section[0m
+[0;32m0 [1667150527.733200] Update Done[0m
+[0;32m0 [1667150527.733201] Exit Critical Section[0m
+[0;33m0 [1667150527.733202] Sleeping for 780 msec[0m
+Time Span: 19.31

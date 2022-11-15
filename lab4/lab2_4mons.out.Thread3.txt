@@ -1,0 +1,33 @@
+[0;35m3 [1667150508.423069] thread 3, file name is machine_3.txt[0m
+[0;33m3 [1667150508.423202] Machine 3 started[0m
+[0;32m3 [1667150508.423271] Machine 3 Line 0: 1,7,0.600000,1,19[0m
+[0;32m3 [1667150508.423289] Exit Critical Section[0m
+[0;32m3 [1667150508.423279] Enter Critical Section[0m
+[0;32m3 [1667150508.423283] Update Done[0m
+[0;33m3 [1667150508.423307] Sleeping for 1040 msec[0m
+[0;32m3 [1667150509.466203] Machine 3 Line 1: 1,11,0.200000,39,17[0m
+[0;32m3 [1667150509.466214] Enter Critical Section[0m
+[0;32m3 [1667150509.466215] Update Done[0m
+[0;32m3 [1667150509.466218] Exit Critical Section[0m
+[0;33m3 [1667150509.466219] Sleeping for 6000 msec[0m
+[0;32m3 [1667150515.466874] Machine 3 Line 2: 1,8,0.500000,13,10[0m
+[0;32m3 [1667150515.466881] Enter Critical Section[0m
+[0;32m3 [1667150515.466882] Update Done[0m
+[0;32m3 [1667150515.466884] Exit Critical Section[0m
+[0;33m3 [1667150515.466884] Sleeping for 2280 msec[0m
+[0;32m3 [1667150517.751783] Machine 3 Line 3: 0,0,0.000000,0,0[0m
+[0;32m3 [1667150517.751790] Enter Critical Section[0m
+[0;32m3 [1667150517.751791] Update Done[0m
+[0;32m3 [1667150517.751793] Exit Critical Section[0m
+[0;33m3 [1667150517.751793] Sleeping for 2960 msec[0m
+[0;32m3 [1667150520.715753] Machine 3 Line 4: 1,1,0.200000,45,13[0m
+[0;32m3 [1667150520.715760] Enter Critical Section[0m
+[0;32m3 [1667150520.715761] Update Done[0m
+[0;32m3 [1667150520.715763] Exit Critical Section[0m
+[0;33m3 [1667150520.715763] Sleeping for 5000 msec[0m
+[0;32m3 [1667150525.716061] Machine 3 Line 5: 1,1,0.700000,2,19[0m
+[0;32m3 [1667150525.716070] Enter Critical Section[0m
+[0;32m3 [1667150525.716071] Update Done[0m
+[0;32m3 [1667150525.716073] Exit Critical Section[0m
+[0;33m3 [1667150525.716073] Sleeping for 1400 msec[0m
+Time Span: 17.29

@@ -1,0 +1,134 @@
+[0;33mR [1666976719.369965] Reader Thread: 3 machines[0m
+[0;33mR [1666976720.370259] Reader Thread loop start[0m
+[0;33mR [1666976720.370279] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976720.370281] ALERT: Machine 2 is down[0m
+[0;33mR [1666976720.370285] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976721.323622] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976721.323624] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976721.323625] Reader Thread loop end[0m
+[0;33mR [1666976721.323626] Reader Thread loop start[0m
+[0;33mR [1666976721.323627] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976721.323628] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976722.253461] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976722.253465] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976722.253466] Reader Thread loop end[0m
+[0;33mR [1666976722.253466] Reader Thread loop start[0m
+[0;33mR [1666976722.253467] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976722.253468] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976723.232151] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976723.232154] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976723.232155] Reader Thread loop end[0m
+[0;33mR [1666976723.232155] Reader Thread loop start[0m
+[0;33mR [1666976723.232157] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976723.232158] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976724.188921] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976724.188924] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976724.188925] Reader Thread loop end[0m
+[0;33mR [1666976724.188925] Reader Thread loop start[0m
+[0;33mR [1666976724.188927] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976724.188928] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976725.134655] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976725.134657] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976725.134658] Reader Thread loop end[0m
+[0;33mR [1666976725.134658] Reader Thread loop start[0m
+[0;33mR [1666976725.134660] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976725.134661] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976726.056962] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976726.056965] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976726.056965] Reader Thread loop end[0m
+[0;33mR [1666976726.056966] Reader Thread loop start[0m
+[0;33mR [1666976726.056967] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976726.056968] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976727.016355] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976727.016358] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976727.016358] Reader Thread loop end[0m
+[0;33mR [1666976727.016359] Reader Thread loop start[0m
+[0;33mR [1666976727.016360] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976727.016361] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976727.982716] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976727.982720] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976727.982721] Reader Thread loop end[0m
+[0;33mR [1666976727.982721] Reader Thread loop start[0m
+[0;33mR [1666976727.982722] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976727.982723] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976729.002238] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976729.002242] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976729.002243] Reader Thread loop end[0m
+[0;33mR [1666976729.002243] Reader Thread loop start[0m
+[0;33mR [1666976729.002244] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976729.002245] ALERT: Machine 0 is down[0m
+[1;31mR [1666976729.002245] ALERT: Machine 1 is down[0m
+[1;31mR [1666976729.002246] ALERT: Machine 2 is down[0m
+[0;33mR [1666976729.002247] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976729.937255] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976729.937257] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976729.937258] Reader Thread loop end[0m
+[0;33mR [1666976729.937259] Reader Thread loop start[0m
+[0;33mR [1666976729.937259] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976729.937260] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976730.904035] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976730.904038] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976730.904039] Reader Thread loop end[0m
+[0;33mR [1666976730.904039] Reader Thread loop start[0m
+[0;33mR [1666976730.904041] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976730.904041] ALERT: Machine 1 is down[0m
+[0;33mR [1666976730.904042] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976731.957391] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976731.957395] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976731.957396] Reader Thread loop end[0m
+[0;33mR [1666976731.957396] Reader Thread loop start[0m
+[0;33mR [1666976731.957398] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976731.957399] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976733.077937] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976733.077940] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976733.077940] Reader Thread loop end[0m
+[0;33mR [1666976733.077941] Reader Thread loop start[0m
+[0;33mR [1666976733.077942] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976733.077943] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976734.192739] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976734.192742] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976734.192743] Reader Thread loop end[0m
+[0;33mR [1666976734.192743] Reader Thread loop start[0m
+[0;33mR [1666976734.192745] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976734.192748] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976735.233770] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976735.233773] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976735.233773] Reader Thread loop end[0m
+[0;33mR [1666976735.233774] Reader Thread loop start[0m
+[0;33mR [1666976735.233775] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976735.233776] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976736.304837] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976736.304842] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976736.304882] Reader Thread loop end[0m
+[0;33mR [1666976736.304883] Reader Thread loop start[0m
+[0;33mR [1666976736.304884] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976736.304885] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976737.391864] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976737.391867] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976737.391868] Reader Thread loop end[0m
+[0;33mR [1666976737.391868] Reader Thread loop start[0m
+[0;33mR [1666976737.391870] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976737.391871] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976738.420667] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976738.420670] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976738.420670] Reader Thread loop end[0m
+[0;33mR [1666976738.420671] Reader Thread loop start[0m
+[0;33mR [1666976738.420672] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976738.420673] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976739.470011] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976739.470014] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976739.470015] Reader Thread loop end[0m
+[0;33mR [1666976739.470015] Reader Thread loop start[0m
+[0;33mR [1666976739.470017] Reader Thread loop accessing_stats lock aquired[0m
+[1;31mR [1666976739.470017] ALERT: Machine 0 is down[0m
+[0;33mR [1666976739.470018] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976740.430561] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976740.430565] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976740.430566] Reader Thread loop end[0m
+[0;33mR [1666976740.430566] Reader Thread loop start[0m
+[0;33mR [1666976740.430568] Reader Thread loop accessing_stats lock aquired[0m
+[0;33mR [1666976740.430569] Reader Thread loop  accessing_stats lock released[0m
+[0;33mR [1666976741.431126] Reader Thread loop  access_summary lock aquired[0m
+[0;33mR [1666976741.431129] Reader Thread loop  access_summary lock released[0m
+[0;33mR [1666976741.431129] Reader Thread loop end[0m
+Time Span: 22.06
