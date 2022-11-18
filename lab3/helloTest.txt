@@ -1,0 +1,8 @@
+Script started on 2022-11-02 00:09:50-04:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="43" LINES="6"]
+]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ exit[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ ./shell[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ ex[3Pit[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ ./shell[A]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ gcc -o shell shell.c[1P shell.c[1P[1P[C[1P shell.c[1P shell.c[C[C[C[C[C[Ch shell.ce shell.cl shell.cl shell.co shell.c[C[C[C[C[C[C[1P.c[1P.c[1P.c[1P.c[1P.ch.ce.cl.cl.co.c
+]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ . /hello
+Hello student
+]0;student@ELEC377Home: ~/elec377-Mon-9/lab3[01;32mstudent@ELEC377Home[00m:[01;34m~/elec377-Mon-9/lab3[00m$ e xit
+exit
+
+Script done on 2022-11-02 00:10:18-04:00 [COMMAND_EXIT_CODE="0"]

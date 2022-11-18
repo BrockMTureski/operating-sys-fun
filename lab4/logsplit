@@ -1,0 +1,53 @@
+#!/bin/sh
+
+#$1 is the name of the file
+
+# check that the number of arguments is 1 (Step 1)
+if [ $# != 1 ]; then
+    echo "Number of arguments is incorrect"
+    exit 1
+fi
+
+# check that the file exists (Step 1)
+if [ -f $1 ]; then
+    echo "The file exists"
+else
+    echo "The file does not exist"
+    exit 1
+fi
+
+
+# extract all of the Reader Messages (R) (Step 1)
+echo "Extrating Reader Messages"
+grep -E '^\[(0|1);[0-9]{2}mR' $1 > $1.Reader.txt
+
+
+# add time range to end of file. (Step 3)
+rHead=$(head -n 1 $1.Reader.txt | cut -b 11-27 | cut --complement -b 11)
+rTail=$(tail -n 1 $1.Reader.txt | cut -b 11-27 | cut --complement -b 11)
+printf "Time Span: %.2f\n" $(($rTail-$rHead))e-6 >> $1.Reader.txt
+
+# extract all of the Printer Messages (P)  (Step 1)
+echo "Extrating Summary Printer Messages"
+grep -E '^\[(0|1);[0-9]{2}mP' $1 > $1.Printer.txt
+
+# add time range to end of file. (Step 3)
+pHead=$(head -n 1 $1.Reader.txt | cut -b 11-27 | cut --complement -b 11)
+pTail=$(tail -n 1 $1.Reader.txt | cut -b 11-27 | cut --complement -b 11)
+printf "Time Span: %.1f\n" $(($pTail-$pHead))e-6 >> $1.Reader.txt
+
+#find the number of machines (Step 2)
+numMachines=`grep -E '^\[(0|1);[0-9]{2}m[0-5]' $1 | cut -b 8 | sort -u`
+
+# extract each machine messages (Step 2)
+echo "Extrating Summary Printer Messages"
+for i in $numMachines
+do
+    
+    grep -E "^\[(0|1);[0-9]{2}m$i" $1 > $1.Thread$i.txt
+    
+    #add time range to the end of the file
+    mHead=$(head -n 1 $1.Thread$i.txt | cut -b 11-27 | cut --complement -b 11)
+    mTail=$(tail -n 1 $1.Thread$i.txt | cut -b 11-27 | cut --complement -b 11)
+    printf "Time Span: %.2f\n" $(($mTail-$mHead))e-6 >> $1.Thread$i.txt
+done

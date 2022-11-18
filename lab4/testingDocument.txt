@@ -1,0 +1,11 @@
+The input files are lab2_3mons.out and lab2_4mons.out.
+
+The output files are all of the files that start with the root
+of the input file but end with '.<thread-name>.txt'.
+
+The output files prove that the script works as intended as you
+can see all of the output in the two input files are each individually 
+split into their respective output files which are correctly named,
+follow the same format as the original output file, and have the time
+span appended to the bottom of the output which satisfies all of the 
+conditions of the program.

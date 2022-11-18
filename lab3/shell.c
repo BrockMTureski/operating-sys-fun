@@ -8,7 +8,6 @@
 #include <ctype.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#define MAX_ARGS .word 15
 
 //+
 // File:	shell.c
@@ -54,6 +53,8 @@ int main() {
     // note the plus one, allows for an extra null
     char *args[MAXARGS+1];
 
+    int internal, program;
+
     // print prompt.. fflush is needed because
     // stdout is line buffered, and won't
     // write to terminal until newline
@@ -72,30 +73,36 @@ int main() {
 	}
 
 	// split command line into words.(Step 2)
-    int numArgs=splitCommandLine(commandBuffer,args,MAX_ARGS-1);
+    int nargs = splitCommandLine(commandBuffer, args, MAXARGS);
+	
 
 	// add a null to end of array (Step 2)
-        char *pnull='\0';
-        args[numArgs]=&pnull;
-	// TODO
+    args[nargs-1] = '\0';
+	
 
 	// debugging
 	//printf("%d\n", nargs);
 	//int i;
 	//for (i = 0; i < nargs; i++){
-	//   printf("%d: %s\n",i,args[i]);
+	   //printf("%d: %s\n",i,args[i]);
 	//}
-	// element just past nargs
+	 //element just past nargs
 	//printf("%d: %x\n",i, args[i]);
 
-        // TODO: check if 1 or more args (Step 3)
         
-        // TODO: if one or more args, call doInternalCommand  (Step 3)
+        if (nargs>1){
+            internal = doInternalCommand(args, nargs);
+        }
         
         // TODO: if doInternalCommand returns 0, call doProgram  (Step 4)
-        
+        if (internal == 0){
+            program = doProgram(args, nargs);
+        }
         // TODO: if doProgram returns 0, print error message (Step 3 & 4)
         // that the command was not found.
+        if(program == 0){
+            printf("Error, command was not found.\n");
+        }
 
 	// print prompt
 	printf("%%> ");
@@ -109,7 +116,8 @@ int main() {
 //+
 // Function:	skipChar
 //
-// Purpose:	TODO: finish description of function
+// Purpose:	Called by splitCommandLine to return pointers to the first
+//          character of a word following a space. 
 //
 // Parameters:
 //    charPtr	Pointer to string
@@ -121,35 +129,38 @@ int main() {
 //-
 
 char * skipChar(char * charPtr, char skip){
-    if(*charPtr==skip){
-        ++charPtr;
-        skipChar(charPtr,skip);
-    } else if(*charPtr!='\0'){
-    return &charPtr;
-    }else{
-        return NULL;
+    if (skip == '\0'){
+        return charPtr;
     }
+    while(*charPtr == skip){
+        charPtr++;
+    }
+
+    return charPtr;
 }
 
 //+
 // Funtion:	splitCommandLine
 //
-// Purpose:	TODO: give descritption of function
+// Purpose:	Fills array args[] with pointers to the beginning of words following
+//          a space. Calls skipChar to get pointers.
 //
 // Parameters:
-//	TODO: parametrs and purpose
+//	commandBuffer   pointer to the beginning of array 
+//  args[]          array of character pointers pointing to words in commandBuffer
+//  maxargs         maximum number of arguments allowed in args[] 
 //
 // Returns:	Number of arguments (< maxargs).
 //
 //-
 
-
 int splitCommandLine(char * commandBuffer, char* args[], int maxargs){
-    int f = 0;
+   int f = 0;
     int len = strlen(commandBuffer);
     for(int i = 0; i<len;i++){
-        if(commandBuffer[i] == ' ' && f < maxargs){
-            args[f]=skipChar(commandBuffer,' ');
+        if((commandBuffer[i] == ' ' || i==0) && (f < maxargs)){
+            args[f]=skipChar(commandBuffer+i,' ');
+            if(commandBuffer[i]==' ') commandBuffer[i]='\0';
             f++;
         }
     }
@@ -169,10 +180,11 @@ char * path[] = {
 //+
 // Funtion:	doProgram
 //
-// Purpose:	TODO: add description of funciton
+// Purpose:	
 //
 // Parameters:
-//	TODO: add paramters and description
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns	int
 //		1 = found and executed the file
@@ -183,6 +195,51 @@ int doProgram(char * args[], int nargs){
   // find the executable
   // TODO: add body.
   // Note this is step 4, complete doInternalCommand first!!!
+  int i = 0;
+  int pathElement = 0;
+  int commandLength = 0;
+  char *cmd_path = NULL;
+   
+  int length = strlen(*path);
+  for(i=0; i<length; i++){
+    
+    pathElement = strlen(path[i]);
+    commandLength = strlen(args[0]);
+    char * cmd_path=malloc(pathElement+commandLength+2);
+    
+    sprintf(cmd_path,"%s/%s", path[i], args[0]);
+    struct stat stats;
+
+    if(stat(cmd_path, &stats)==0){
+        if(!(S_ISREG(stats.st_mode))){
+            printf("Error from S_ISREG, irregular");
+            return 0;
+        }
+        if(!(S_IXUSR && stats.st_mode)){
+            printf("Error from S_IXUSR, unexecutable");
+            return 0;
+        }
+        break;
+    }
+
+    free(cmd_path);
+    cmd_path = NULL;
+  }
+  
+  if(cmd_path == NULL){
+      return 0;
+  }
+
+  pid_t outFork = fork();
+  if(outFork == -1){
+      perror("Child not created");
+  }
+  if(outFork == 0){
+      execv(cmd_path, args);
+  }
+
+  free(cmd_path);
+  wait(NULL);
 
   return 1;
 }
@@ -200,22 +257,31 @@ struct cmdStruct{
 
 // prototypes for command handling functions
 // TODO: add prototype for each comamand function
+void exitFunc (char *args[], int nargs);
+void pwdFunc (char *args[], int nargs);
+void lsFunc (char *args[], int nargs);
+void cdFunc (char *args[], int nargs);
+int checkFilter(const struct dirent *d);
 
 // list commands and functions
 // must be terminated by {NULL, NULL} 
 // in a real shell, this would be a hashtable.
 struct cmdStruct commands[] = {
-   // TODO: add entry for each command
+   {"exit", exitFunc},
+   {"pwd", pwdFunc},
+   {"ls", lsFunc},
+   {"cd", cdFunc},
    { NULL, NULL}		// terminator
 };
 
 //+
 // Function:	doInternalCommand
 //
-// Purpose:	TODO: add description
-//
+// Purpose:	function that takes in tokenized
+//          arguments and decides which function to call
 // Parameters:
-//	TODO: add parameter names and descriptions
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
 //
 // Returns	int
 //		1 = args[0] is an internal command
@@ -223,7 +289,16 @@ struct cmdStruct commands[] = {
 //-
 
 int doInternalCommand(char * args[], int nargs){
-    // TODO: function contents (step 3)
+    
+    int i=0;
+    while (commands[i].cmdName != NULL){
+        //printf("%x : %s",args[0],commands[i].cmdName);
+        if((strcmp(args[0], commands[i].cmdName))==0){
+            commands[i].cmdFunc(args, nargs);
+            return 1;
+        }
+        i++;
+    }
     return 0;
 }
 
@@ -231,7 +306,131 @@ int doInternalCommand(char * args[], int nargs){
 // comand Handling Functions //
 ///////////////////////////////
 
-// TODO: a function for each command handling function
-// goes here. Also make sure a comment block prefaces
-// each of the command handling functions.
 
+//+
+// Function:	exitFunc
+//
+// Purpose:	Exit the shell with exit code of 0
+//
+// Parameters:
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
+//
+// Returns:	void
+//-
+void exitFunc (char *args[], int nargs){
+    exit(0);
+}
+
+//+
+// Function:	pwdFunc
+//
+// Purpose:	Print the current working directory 
+//
+// Parameters:
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
+//
+// Returns:	void
+//-
+void pwdFunc (char *args[], int nargs){
+    char * cwd = getcwd(NULL, 0);
+    printf("Current directory: %s\n", cwd);
+    free(cwd);
+}
+
+//+
+// Function:	lsFunc
+//
+// Purpose:	List the contents of the current directory. Hidden files 
+//          are not listed. Parameter "-a" lists all files
+//
+// Parameters:
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
+//
+// Returns: void	
+//-
+void lsFunc (char *args[], int nargs){
+    struct dirent ** namelist;
+    int (*filter)(const struct dirent * d); 
+    int numEnts = scandir(".", &namelist, NULL, NULL);
+    int numPrinted=0;
+    
+
+    if(args[1]==NULL){
+        for(int i=0;i<numEnts;i++){
+            if(namelist[i]->d_name[0]!='.'){
+        printf("%s\n",namelist[i]->d_name);
+            }
+        }
+    }
+
+        if(args[1]!=NULL){
+         if(strcmp(args[1], "-a") == 0){
+            for(int i=0;i<numEnts;i++){
+                printf("%s\n",namelist[i]->d_name); 
+        }
+        }else{
+            fprintf(stderr, "Error, argument \'-a\' not present.");
+        }
+        }
+    return; 
+}
+
+//+
+// Function:	checkFilter
+//
+// Purpose:	Exit the shell with exit code of 0
+//
+// Parameters:
+//	d- takes in pointer to dirent struct
+//
+// Returns: int	
+//		1 = not a hidden file
+//		0 = hidden file
+//-
+int checkFilter(const struct dirent *d){
+    if(d->d_name[0]=='.'){
+        return 0;
+    }else{
+        return 1;
+    }
+
+}
+
+//+
+// Function:	cdFunc
+//
+// Purpose:	Change the current directory to the one given by parameter.
+//
+// Parameters:
+//	Args- array of tokenized arguments
+//  Nargs- number of arguments in args array
+//
+// Returns: void
+//-
+void cdFunc (char *args[], int nargs){
+    
+    struct passwd *pw=getpwuid(getuid());
+   
+    if(pw==NULL){
+        fprintf(stderr, "Invalid input: NULL\n");  
+    }
+
+    char* newDirName = pw->pw_dir;
+    if(args[1][0]=='~'){
+        args[1]=args[1]+1;
+    strcat(newDirName,args[1]);
+    }else{
+        newDirName=args[1];
+    }
+    if(nargs == 1){
+        chdir(newDirName);
+    }
+
+    if(chdir(newDirName)!=0){
+        fprintf(stderr, "Directory does not exist\n");
+    }
+             
+}

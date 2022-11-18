@@ -1,0 +1,9 @@
+Test1.txt goes through and shows all of the commands and all of the commands they can doing
+it proves the cd function by running pwd after.
+
+Test2.txt changes directory to /usr/bin and shows and example of a unexpected command
+
+Test3.txt displays the splitting of the command line through an output of original string then output of 
+individual tokens.
+
+helloTest.txt tests the hello.c file.
