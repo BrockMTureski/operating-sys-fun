@@ -1,0 +1,13 @@
+Documentation 3/3
+
+
+Correctness 2/3
+-Did not validate opening of semaphores in init_shared
+-No output to validate
+
+Style 2/2
+
+
+Testing 0.5/2
+-Missing output, please include this next time
+-Giving 1/2 mark for describing basic debugging process
