@@ -1,3 +1,4 @@
+
 ================================================================================
                                  selfcomp.c
 ================================================================================
@@ -8,7 +9,10 @@ into the array buffer. Compromise contains the shell code. The number of NOP
 instructions are determined in compromise1 from the number of x's needed to
 cause a core dump. This ensures that the new return address is aligned properly
 with the original return address to crash the program. The shell code is a list
-of hex bytes from the output of the exploit nasm listing.
+of hex bytes from the output of the exploit nasm listing. The string used to 
+compromise the server in selfcomp is 159 elements with the first five bytes of
+shell code being nops. the location of the return address on the stack as shown 
+in the default core dump with rsp not overwritten is at 0x7fffffffdb98.
 
 ================================================================================
                                   exploit

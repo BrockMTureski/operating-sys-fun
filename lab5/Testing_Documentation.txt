@@ -72,3 +72,57 @@ restricted to this process.
 
 Below is my debug code showing different steps in my testing, with an explanation 
 above explaining the pertinence of the ouput.
+
+this gdb register information is from running selfcomp.c with the marker for 'MNOPWXYZ' 
+shown in rbp (the hex value is backwards as the stack grows downwards, this shows that
+the 8 byte following that will overwrite stackpointer allowing for us to change sp to
+beginning of shell script
+
+rbp            0x5a595857504f4e4d  0x5a595857504f4e4d
+
+
+The next step in this lab is to create the assembly code, as previously mentioned, had some
+issues with the assembly code, the output for the assembly code is in exploit.lst, as you can
+see the value of newAddr which is the length of code is 91 when proper outputs are 90 or 93.
+i believe this code error is what caused me issues in the next part, stopping environment 
+variables from printing and not allowing me to complete the lab.
+
+
+This next part of the section is the injection of the shell code using compromise instead of 
+compromise1, when ran we experience a core dump from a segmentation fault, upon debugging the
+core we see that the backtrace output outputs this:
+
+#0  0x00007fffffffdb6c in ?? ()
+#1  0x0000000100000000 in ?? ()
+#2  0x0000000000000000 in ?? ()
+
+this is a good sign to some degree as that first trace shows that the number of nops at the start
+of our shellscript is correct as that address is going to be the same as rip and shows that the
+machine is accessing the area of memory our shell script is is as that address is between 
+the value we overwrote rsp with using the buffer overflow (0x7fffffffdb04) and the 
+default rsp value (0x7fffffffdb98). Next we can check our registers to confirm this.
+
+first register of importance to us is going to be the stack pointer:
+
+rsp            0x7fffffffdba8      0x7fffffffdba8
+
+this has changed from the previous default value and is now equal to the
+the default value offset by 16 which is correct and shows that the 
+return address we gave has been followed and popped off the stack
+
+the next register of importance is rip as this is the instruction that
+caused the segmentation fault:
+
+rip            0x7fffffffdb6c      0x7fffffffdb6c
+
+when examining this memory location we see the following:
+
+0x7fffffffdb62: 0x58632d795868732f      0x766e'65'746e697270
+
+with the 6b6c bytebeing the byte '0x65' that i put quotation marks around,
+this is the intruction in rip. This byte is the first e in cmdStr.
+
+Although I couldn't complete the lab, I have compiled a list of possible seed 
+words in namebank.txt based on items of significance to jacks life as found from 
+lab5Media posts.
+
