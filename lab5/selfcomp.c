@@ -25,8 +25,15 @@ char compromise[120] = {
 char * compromise1 =
     "xxxxxxxxxxxxxxxxxxxx"
     "xxxxxxxxxxxxxxxxxxxx"
-    "MNOPWXYZ"
+    "xxxxxxxxxxxxxxxxxxxx"
+    "xxxxxxxxxxxxxxxxxxxx"
+    "xxxxxxxxxxxxxxxxxxxx"
+    "xxxxxxxxxxxxxxxxxxxx"
+    "xxxxxxxxxxxxxxxxxxxx"
+    "xxxx"
+    "MNOPWXYZ" //0x4d4e4f505758595a
     "xxxxxxxx";
+    // environ == 0x7ffff7fb5600
 
 int i;
 void doTest(){
