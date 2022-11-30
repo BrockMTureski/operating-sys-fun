@@ -1,0 +1,7 @@
+Documentation 3
+Testing 1.5
+Correctness 1.5
+Clarity 2
+Total: 8
+
+"The program does not split sentences as expected. Inproperly implemented functions
