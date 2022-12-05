@@ -1,1 +1,28 @@
+================================================================================
+                                 selfcomp.c
+================================================================================
+Contains two global variables, compromise and compromise1. Compromise1 is used
+to probe the stack and find the length of the buffer to be applied in 
+compromise. This is done in doTest where the contents of compromise1 are copied
+into the array buffer. Compromise contains the shell code. The number of NOP
+instructions are determined in compromise1 from the number of x's needed to
+cause a core dump. This ensures that the new return address is aligned properly
+with the original return address to crash the program. The shell code is a list
+of hex bytes from the output of the exploit nasm listing.
 
+================================================================================
+                                  exploit
+================================================================================
+Exploit is an assembly language program with the purpose of executing the
+command sh -c "printenv;exit" on the server. By implementing a buffer in the
+shell code, the program counter points to the beginning of the code to be executed. The return address points to the beginning of the exploit due to the 
+stack overflow. 
+
+================================================================================
+                                  client.c
+================================================================================
+The variables compromise and compromise1 are similar to those in selfcomp, with
+a few changes due to the fact it is now being sent across the local network. 
+Compromise1 is set up the same way by adding or removing x's until its
+implementation crashes the server. The difference is in compromise where the 
+last two bytes had to be a newline and a null byte. This reveals the environment variables for the server which includes the hashed password MD5. 
